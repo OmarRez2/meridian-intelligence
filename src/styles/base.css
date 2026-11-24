@@ -1,0 +1,257 @@
+/* Meridian design tokens — see docs/design-system.md */
+:root {
+  /* Ground: cyanotype night, not black */
+  --abyss: #060f22;
+  --prussian: #0d2142;
+  --prussian-2: #13305c;
+  --rule: rgba(190, 210, 235, 0.14);
+  --rule-strong: rgba(190, 210, 235, 0.28);
+  /* Ink */
+  --chalk: #e8edf2;
+  --haze: #93a7c2;
+  --haze-dim: #6b7f9c;
+  /* Signals — each has one job */
+  --brass: #d4a85a;      /* inbound: suppliers, purchasing, the instrument itself */
+  --glacier: #8fd8e8;    /* outbound: customers, demand, sales */
+  --ember: #ef7a8a;      /* risk only: shortfalls, late, below reorder */
+  --demo: #c9b6ff;       /* synthetic-data marking */
+
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-data: 'IBM Plex Sans Condensed', 'IBM Plex Sans', system-ui, sans-serif;
+
+  /* Type scale: 1.333 (perfect fourth) from 16px */
+  --t-0: 0.8125rem;
+  --t-1: 1rem;
+  --t-2: 1.333rem;
+  --t-3: 1.777rem;
+  --t-4: 2.369rem;
+  --t-5: 3.157rem;
+  --t-6: clamp(3.2rem, 8.6vw, 8.4rem);
+
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --nav-h: 64px;
+
+  /* Channels for translucent surfaces: rgb(var(--ground-rgb) / .8). Each theme redefines them. */
+  --ground-rgb: 6 15 34;
+  --surface-rgb: 13 33 66;
+  --ink-rgb: 232 237 242;
+  --line-rgb: 190 210 235;
+  --haze-rgb: 147 167 194;
+  --brass-rgb: 212 168 90;
+  --glacier-rgb: 143 216 232;
+  --ember-rgb: 239 122 138;
+  --demo-rgb: 201 182 255;
+  --good: #9fe3c3;
+  --good-rgb: 159 227 195;
+  --shadow-rgb: 0 0 0;
+  --ink-bright: #ffffff;
+  --on-accent: #060f22;
+  --code-bg: #040b19;
+  --portrait-ring: rgb(212 168 90 / .55);
+}
+
+/* Day: the same instrument engraved on vellum. Not an inversion: every role keeps its hue,
+   deepened to an ink that holds 4.5:1 on the paper ground. */
+:root[data-theme='light'] {
+  --abyss: #efeae0;
+  --prussian: #e5dfd2;
+  --prussian-2: #d9d1c0;
+  --rule: rgb(20 36 61 / 0.14);
+  --rule-strong: rgb(20 36 61 / 0.3);
+  --chalk: #14243d;
+  --haze: #3f4e65;
+  --haze-dim: #56637a;
+  --brass: #855510;
+  --glacier: #0b6378;
+  --ember: #a8213a;
+  --demo: #5f43b5;
+
+  --ground-rgb: 239 234 224;
+  --surface-rgb: 250 247 241;
+  --ink-rgb: 20 36 61;
+  --line-rgb: 20 36 61;
+  --haze-rgb: 63 78 101;
+  --brass-rgb: 133 85 16;
+  --glacier-rgb: 11 99 120;
+  --ember-rgb: 168 33 58;
+  --demo-rgb: 95 67 181;
+  --good: #17704a;
+  --good-rgb: 23 112 74;
+  --shadow-rgb: 60 45 20;
+  --ink-bright: #0a1628;
+  --on-accent: #fbf8f1;
+  --code-bg: #0c1a33;
+  --portrait-ring: rgb(133 85 16 / .5);
+}
+
+/* Arabic: IBM Plex Sans Arabic (companion to Plex Sans) for text, Amiri (classical naskh) for display.
+   Latin runs inside Arabic text fall back to the Latin faces, so names and code stay in their own type. */
+:root[lang='ar'] {
+  --font-display: 'Amiri', 'Cormorant Garamond', serif;
+  --font-ui: 'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-data: 'IBM Plex Sans Arabic', 'IBM Plex Sans Condensed', system-ui, sans-serif;
+}
+:root[lang='ar'] body { line-height: 1.75; }
+/* Arabic has no letter-case or tracking tradition: undo uppercase and letter-spacing used for Latin labels */
+:root[lang='ar'] * { letter-spacing: 0 !important; }
+:root[lang='ar'] [class] { text-transform: none; }
+code, pre, kbd, .ltr, .formula, .kpi-formula { direction: ltr; unicode-bidi: isolate; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html, body { margin: 0; }
+body {
+  background: var(--abyss);
+  color: var(--chalk);
+  font-family: var(--font-ui);
+  font-size: var(--t-1);
+  line-height: 1.55;
+  font-feature-settings: 'tnum' 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+::selection { background: rgb(var(--brass-rgb) / 0.35); color: var(--ink-bright); }
+
+:focus-visible {
+  outline: 2px solid var(--glacier);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  padding: .6rem 1rem; background: var(--chalk); color: var(--on-accent);
+  text-decoration: none; border-radius: 4px; transition: top .2s;
+}
+.skip-link:focus { top: 1rem; }
+
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* The persistent sky */
+#sky {
+  position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0;
+  transition: opacity 1.2s var(--ease-io), filter 1.2s var(--ease-io);
+}
+/* behind reading pages the instrument recedes; the analytical workspace dims it most */
+body[data-route='overview'] #sky,
+body[data-route='concepts'] #sky { opacity: .55; }
+body[data-route='team'] #sky { opacity: .36; }
+/* long-reading pages: the instrument stays present but never crosses the text at full strength */
+body[data-route='insights'] #sky,
+body[data-route='engineering'] #sky { opacity: .26; filter: saturate(.6); }
+body[data-route='hub'] #sky,
+body[data-route='journey'] #sky { opacity: .32; filter: saturate(.7); }
+body[data-route^='concept-'] #sky { opacity: 0; }
+#sky-fallback {
+  position: fixed; inset: 0; z-index: 0; display: none;
+  background:
+    radial-gradient(ellipse at 70% 60%, rgb(var(--surface-rgb) / .9), transparent 60%),
+    var(--abyss);
+}
+body.no-webgl #sky { display: none; }
+body.no-webgl #sky-fallback { display: block; }
+#sky-fallback svg { position: absolute; right: -10vw; bottom: -20vh; width: 90vmax; opacity: .5; }
+
+main { position: relative; z-index: 2; min-height: 100vh; outline: none; }
+
+/* Route veil used by cinematic transitions */
+#veil {
+  position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 50% 55%, rgb(var(--ink-rgb) / .9), rgb(var(--glacier-rgb) / .25) 30%, var(--abyss) 72%);
+}
+
+/* ---------- Navigation ---------- */
+#site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--gutter);
+  transition: background .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+#site-nav.solid { background: rgb(var(--ground-rgb) / .78); backdrop-filter: blur(10px); border-color: var(--rule); }
+.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+.brand svg { width: 26px; height: 26px; }
+.brand-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; letter-spacing: .01em; white-space: nowrap; }
+@media (max-width: 520px) { .bn-long { display: none; } }
+.brand-name small { font-family: var(--font-ui); font-size: .75rem; color: var(--haze); margin-inline-start: .5rem; font-weight: 400; letter-spacing: 0; }
+.nav-links { display: flex; gap: .1rem; list-style: none; margin: 0; padding: 0; }
+.nav-links a {
+  display: block; padding: .5rem .85rem; text-decoration: none; font-size: .9rem; color: var(--haze);
+  border-radius: 999px; transition: color .25s, background .25s;
+}
+.nav-links a:hover { color: var(--chalk); }
+.nav-links a[aria-current='page'] { color: var(--chalk); background: rgb(var(--ink-rgb) / .08); }
+.nav-toggle { display: none; background: none; border: 1px solid var(--rule-strong); border-radius: 999px; padding: .45rem .9rem; cursor: pointer; font-size: .85rem; }
+.demo-pill {
+  display: inline-flex; align-items: center; gap: .45rem; font-size: .75rem; color: var(--demo);
+  border: 1px solid rgb(var(--demo-rgb) / .35); border-radius: 999px; padding: .2rem .65rem; white-space: nowrap;
+}
+.demo-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--demo); }
+
+@media (max-width: 1120px) {
+  .nav-toggle { display: block; }
+  .nav-links {
+    position: fixed; top: var(--nav-h); left: 0; right: 0; flex-direction: column; gap: 0;
+    background: rgb(var(--ground-rgb) / 1); border-bottom: 1px solid var(--rule);
+    padding: .5rem var(--gutter) 1.25rem; transform: translateY(-8px); opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s var(--ease-out);
+  }
+  .nav-links.open { opacity: 1; transform: none; pointer-events: auto; }
+  /* the page below the open menu is dimmed so the menu reads as one layer above it */
+  .nav-links::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 100vh; background: rgb(var(--ground-rgb) / .72); }
+  .nav-links a { padding: .9rem 0; font-size: 1.05rem; border-radius: 0; border-bottom: 1px solid var(--rule); }
+  .nav-links a[aria-current='page'] { background: none; color: var(--brass); }
+  #site-nav { background: rgb(var(--ground-rgb) / .7); backdrop-filter: blur(8px); }
+}
+@media (max-width: 860px) { .brand-name small { display: none; } }
+
+/* ---------- Shared type ---------- */
+.display {
+  font-family: var(--font-display); font-weight: 300; line-height: .95; letter-spacing: -.015em; margin: 0;
+}
+.h-section { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.1rem, 4.6vw, 3.6rem); line-height: 1.02; margin: 0 0 1.2rem; letter-spacing: -.01em; }
+.lede { font-size: clamp(1.05rem, 1.4vw, 1.2rem); color: var(--haze); max-width: 34rem; line-height: 1.6; }
+.prose p { max-width: 36rem; color: var(--haze); }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .7rem; padding: .85rem 1.35rem; border-radius: 999px;
+  text-decoration: none; font-size: .95rem; font-weight: 500; cursor: pointer; border: 1px solid transparent;
+  transition: background .3s, color .3s, border-color .3s, transform .3s var(--ease-out);
+}
+.btn-primary { background: var(--chalk); color: var(--on-accent); }
+.btn-primary:hover { background: var(--ink-bright); transform: translateY(-1px); }
+.btn-ghost { border-color: var(--rule-strong); color: var(--chalk); background: transparent; }
+.btn-ghost:hover { border-color: var(--chalk); }
+.btn .dial {
+  width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid currentColor; position: relative; flex: none;
+}
+.btn .dial::after { content: ''; position: absolute; left: 50%; top: 2px; width: 1.5px; height: 6px; background: currentColor; transform: translateX(-50%); transform-origin: 50% 5.5px; transition: transform .6s var(--ease-out); }
+.btn:hover .dial::after { transform: translateX(-50%) rotate(90deg); }
+
+.page-pad { padding: calc(var(--nav-h) + 3rem) var(--gutter) 5rem; }
+
+/* visitor pressed "Pause motion": stop decorative CSS loops (the sky pauses itself) */
+html[data-motion='paused'] *, html[data-motion='paused'] *::before, html[data-motion='paused'] *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* Touch: small controls get an invisible hit area of at least 44×44 px; what is drawn does not change. */
+@media (pointer: coarse) {
+  .motion-toggle, .nav-toggle, .brand, .def-btn, .table-btn, .text-btn, .text-link { position: relative; }
+  .motion-toggle::after, .nav-toggle::after, .brand::after, .def-btn::after, .table-btn::after, .text-btn::after, .text-link::after {
+    content: ''; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: max(100%, 44px); transform: translate(-50%, -50%);
+  }
+}

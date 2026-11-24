@@ -1,0 +1,59 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.vite/
+.playwright-mcp/
+.claude/
+.remember/
+.vscode/
+.idea/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.p12
+*.key
+.npmrc
+
+# Raw source exports and database/BI project files
+*.csv
+*.parquet
+*.xls
+*.xlsx
+*.pbix
+*.pbip
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files and operating-system/editor metadata
+*.log
+*.tmp
+*.swp
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep internal working notes out of the release repository
+CLAUDE.md
+docs/implementation-progress.md
+docs/prototype-review.md
+docs/team-profiles.md
+docs/tool-setup.md
+docs/perf/*.json
+
+# Retain only the curated, non-personal release screenshots
+docs/screenshots/*
+!docs/screenshots/release/
+docs/screenshots/release/*
+!docs/screenshots/release/atlas.png
+!docs/screenshots/release/journey.png

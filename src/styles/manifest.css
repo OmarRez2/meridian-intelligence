@@ -1,0 +1,57 @@
+body[data-route='concept-manifest'] { background: #d7d9d4; color: #1d2326; }
+body[data-route='concept-manifest'] #site-nav { color: #1d2326; }
+body[data-route='concept-manifest'] #site-nav.solid,
+body[data-route='concept-manifest'] #site-nav { background: rgba(215, 217, 212, .92); border-color: rgba(29, 35, 38, .15); }
+body[data-route='concept-manifest'] .nav-links a { color: #4a5358; }
+body[data-route='concept-manifest'] .nav-links a[aria-current='page'] { color: #1d2326; background: rgba(29, 35, 38, .08); }
+body[data-route='concept-manifest'] .nav-links { background: #d7d9d4; }
+body[data-route='concept-manifest'] .brand-name small { color: #4a5358; }
+body[data-route='concept-manifest'] :focus-visible { outline-color: #2f5d8a; }
+
+.mf { --steel: #d7d9d4; --ink: #1d2326; --yellow: #f2b705; --blue: #2f5d8a; --red: #c8432b; padding: calc(var(--nav-h) + 2rem) var(--gutter) 4rem; max-width: 1440px; margin: 0 auto; font-family: var(--font-data); }
+.mf-crumb { font-size: .9rem; margin: 0 0 1rem; }
+.mf-crumb a { color: var(--blue); }
+.mf-title { font-family: var(--font-data); font-weight: 600; font-size: clamp(4.5rem, 17vw, 15rem); letter-spacing: -.045em; line-height: .8; margin: 0 0 2rem; text-transform: uppercase; }
+.mf-doc { display: grid; grid-template-columns: repeat(4, 1fr) auto; border: 2px solid var(--ink); }
+.mf-doc > div { padding: .8rem 1rem; border-right: 1px solid var(--ink); display: grid; gap: .2rem; }
+.mf-doc > div:last-child { border-right: 0; place-items: center; }
+.mf-doc span { font-size: .78rem; color: #4a5358; }
+.mf-doc b { font-weight: 600; font-size: 1.05rem; }
+.stamp { display: inline-block; border: 2.5px solid var(--red); color: var(--red); font-weight: 600; padding: .15rem .7rem; transform: rotate(-6deg); font-size: .95rem; white-space: nowrap; }
+.mf-lede { font-family: var(--font-ui); font-size: 1.2rem; max-width: 38rem; margin: 2rem 0 0; line-height: 1.55; }
+
+.yard { margin-top: 5rem; }
+.yard-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: .6rem; }
+.yard-head h2, .ledger h2 { font-weight: 600; font-size: 2rem; margin: 0; text-transform: uppercase; letter-spacing: -.02em; }
+.yard-head p { margin: 0; color: #4a5358; }
+.yard-stacks { display: flex; align-items: flex-end; gap: 3px; height: 340px; padding-top: 1.5rem; position: relative; }
+.stack { flex: 1; display: flex; flex-direction: column-reverse; gap: 2px; position: relative; min-width: 0; }
+.stack i { height: 30px; background: repeating-linear-gradient(to right, var(--blue) 0 3px, #24496d 3px 4px); opacity: 0; transform: translateY(-60px); }
+.stack i.y { background: repeating-linear-gradient(to right, var(--yellow) 0 3px, #c99700 3px 4px); }
+.yard-stacks.in .stack i { animation: drop .32s steps(4, end) forwards; animation-delay: calc(var(--c) * 28ms + var(--k) * 60ms); }
+@keyframes drop { to { opacity: 1; transform: none; } }
+.stack em { position: absolute; bottom: -1.6rem; left: 0; font-style: normal; font-size: .8rem; }
+.stack:hover i { filter: brightness(1.25); }
+
+.ledger { margin-top: 6rem; }
+.ledger ol { list-style: none; padding: 0; margin: 1rem 0 2rem; border-top: 2px solid var(--ink); }
+.ledger li { display: grid; grid-template-columns: 8rem 1fr auto; gap: 1.5rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--ink); }
+.ledger p { margin: 0; font-family: var(--font-ui); font-size: 1.25rem; }
+.ledger .stamp { opacity: 0; transform: rotate(-6deg) scale(1.6); }
+.ledger li.in .stamp { animation: strike .28s steps(3, end) forwards; }
+@keyframes strike { to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+.mf-back { color: var(--blue); font-family: var(--font-ui); }
+
+@media (max-width: 760px) {
+  .mf-doc { grid-template-columns: 1fr 1fr; }
+  .mf-doc > div { border-bottom: 1px solid var(--ink); }
+  .mf-doc > div:nth-child(2n) { border-right: 0; }
+  .mf-doc > div:last-child { grid-column: span 2; border-bottom: 0; padding: 1rem; }
+  .yard-stacks { height: 240px; gap: 1px; }
+  .stack i { height: 20px; }
+  .ledger li { grid-template-columns: 1fr; gap: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack i, .ledger .stamp { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .ledger .stamp { transform: rotate(-6deg) !important; }
+}

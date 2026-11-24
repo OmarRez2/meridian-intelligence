@@ -1,0 +1,38 @@
+.journey { max-width: 1400px; margin: 0 auto; }
+.j-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.2rem 0 0; }
+.j-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 4rem; align-items: start; }
+.j-figure { position: sticky; top: calc(var(--nav-h) + 2rem); height: min(68vh, 620px); border: 1px solid var(--rule); border-radius: 4px; background: rgb(var(--ground-rgb) / .75); }
+.j-canvas { width: 100%; height: 100%; }
+.j-zones { position: absolute; left: 0; right: 0; top: .8rem; display: grid; grid-template-columns: repeat(7, 1fr); list-style: none; margin: 0; padding: 0; }
+.j-zones li { font-size: .78rem; color: var(--haze-dim); padding: 0 .8rem; transition: color .4s; }
+.j-zones li.on { color: var(--chalk); }
+.j-legend { position: absolute; left: 1rem; bottom: .8rem; display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: .78rem; color: var(--haze); }
+.j-legend span { display: inline-flex; align-items: center; gap: .45rem; }
+.j-legend i { width: 8px; height: 8px; border-radius: 50%; }
+.j-legend i.ember { background: var(--ember); border-radius: 1px; }
+.j-steps { list-style: none; margin: 0; padding: 18vh 0 30vh; }
+/* steps away from the reading line recede (large headings stay near 3:1); focus or more contrast shows them in full */
+.j-step { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 0 0 34vh; opacity: .5; transition: opacity .6s var(--ease-io); }
+.j-step.on, .j-step:focus-within { opacity: 1; }
+@media (prefers-contrast: more), (forced-colors: active) { .j-step { opacity: 1; } }
+.j-n { font-size: 1.2rem; color: var(--brass); padding-top: .5rem; }
+.j-step h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 3.4vw, 2.9rem); margin: 0 0 .5rem; line-height: 1.05; }
+.j-k { color: var(--brass); margin: 0 0 .8rem; }
+.j-step p:not(.j-k) { color: var(--haze); max-width: 30rem; }
+.j-shows { font-size: .88rem; }
+.j-shows span { display: block; color: var(--haze-dim); font-size: .78rem; margin-bottom: .15rem; }
+.j-proj { margin-top: .8rem; padding: .9rem 1rem; border-inline-start: 2px solid var(--brass); background: rgb(var(--brass-rgb) / .05); max-width: 30rem; }
+.j-proj p { margin: 0 0 .7rem; color: var(--chalk) !important; font-size: .95rem; }
+.j-end { grid-template-columns: 1fr; padding-bottom: 10vh; }
+.j-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; }
+
+@media (max-width: 900px) {
+  .j-grid { grid-template-columns: 1fr; gap: 0; }
+  .j-figure { top: var(--nav-h); height: 38vh; min-height: 260px; z-index: 3; border-radius: 0; margin: 0 calc(var(--gutter) * -1); background: rgb(var(--ground-rgb) / 1); }
+  .j-zones li { font-size: .62rem; padding: 0 .2rem; text-align: center; }
+  .j-steps { padding-top: 8vh; }
+  .j-step { padding-bottom: 22vh; grid-template-columns: 2.2rem 1fr; }
+}
+.j-step h2 + .status { margin: -.2rem 0 .6rem; }
+.j-evidence { font-size: .84rem; color: var(--haze) !important; margin: 0 !important; }
+.j-evidence span { color: var(--haze-dim); margin-inline-end: .3rem; }

@@ -1,0 +1,116 @@
+/* ---------- verification ladder: five rungs that rise left to right ---------- */
+.ladder-head, .dossier-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 0 5rem; align-items: end; margin-bottom: 1.8rem; }
+.ladder-head .sec-note { margin-bottom: 1rem; }
+.ladder { padding: 2rem 2rem 1.8rem; }
+.ladder-rungs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .8rem; align-items: end; --sel: 3; }
+.ladder-rungs [role='tab'] { background: none; border: 0; cursor: pointer; text-align: start; display: grid; gap: .45rem; color: var(--haze); padding: 0; }
+.rung-bar { display: block; height: calc(1.4rem + var(--i) * 1.4rem); border-radius: 2px 2px 0 0; background: rgb(var(--haze-rgb) / .12); border-top: 2px solid var(--rule-strong); transition: background .4s, border-color .4s; }
+.ladder-rungs [role='tab']:nth-child(1) .rung-bar { border-color: var(--demo); }
+.ladder-rungs [role='tab']:nth-child(2) .rung-bar { border-color: var(--haze); }
+.ladder-rungs [role='tab']:nth-child(3) .rung-bar { border-color: var(--brass); }
+.ladder-rungs [role='tab']:nth-child(4) .rung-bar { border-color: var(--glacier); }
+.ladder-rungs [role='tab']:nth-child(5) .rung-bar { border-color: var(--good); }
+.ladder-rungs [role='tab'][aria-selected='true'] .rung-bar { background: rgb(var(--ink-rgb) / .14); }
+.rung-n { font-size: .8rem; color: var(--haze-dim); }
+.rung-l { font-size: .92rem; transition: color .2s; }
+.ladder-rungs [role='tab']:hover .rung-l, .ladder-rungs [role='tab'][aria-selected='true'] .rung-l { color: var(--chalk); }
+.ladder-panel { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 1.5rem 3rem; margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); min-height: 7.5rem; }
+.lp-needs { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.3; margin: .9rem 0 0; max-width: 34rem; }
+.ladder-panel dl { margin: 0; }
+.ladder-panel dl div { padding: .6rem 0; border-bottom: 1px solid var(--rule); }
+.ladder-panel dt { font-size: .8rem; color: var(--haze); }
+.ladder-panel dd { margin: .15rem 0 0; }
+
+/* ---------- the demonstration dossier ---------- */
+.stamp {
+  justify-self: end; align-self: center; margin: 0; transform: rotate(-3deg); border: 2px solid var(--demo); color: var(--demo);
+  padding: .55rem 1.1rem .6rem; border-radius: 4px; font-family: var(--font-display); font-size: 1.7rem; line-height: 1; text-align: center;
+}
+/* lavender marks synthetic data only; the verified view stamps in neutral chalk */
+html[data-data='verified'] .stamp { border-color: var(--rule-strong); color: var(--chalk); }
+.stamp span { display: block; font-family: var(--font-ui); font-size: .72rem; margin-top: .35rem; color: var(--haze); }
+.dossier { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2.5rem; align-items: start; }
+.dz-fields { margin: 0; border-top: 1px solid var(--rule-strong); }
+.dz-fields div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1rem; padding: .95rem 0; border-bottom: 1px solid var(--rule); }
+.dz-fields dt { font-size: .82rem; color: var(--haze); padding-top: .15rem; }
+.dz-fields dd { margin: 0; font-size: .95rem; line-height: 1.55; }
+.dz-fields .dz-obs dd { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.32; }
+.dz-obs b { font-weight: 500; color: var(--ember); }
+.dz-obs .num { font-family: var(--font-data); font-size: 1.05rem; }
+.dz-formula { display: block; margin-top: .4rem; font-size: .78rem; color: var(--haze-dim); }
+.dz-fields dd .status + .status { margin-inline-start: .3rem; }
+.dz-evidence { position: sticky; top: calc(var(--nav-h) + 1.5rem); padding: 1.1rem 1.2rem 1rem; }
+.dz-ev-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.dz-ev-head h3 { margin: 0; font-weight: 500; font-size: 1rem; }
+.dz-ev { min-height: 340px; }
+.dz-ev .panel-body { min-height: 340px; }
+.dz-caption { margin: .8rem 0 0; font-size: .82rem; color: var(--haze); }
+
+/* ---------- register ---------- */
+.register { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-strong); }
+.register > li { display: grid; grid-template-columns: 9rem minmax(0, 1fr) auto; gap: .4rem 2rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--rule); }
+.rg-domain { color: var(--brass); font-size: .92rem; }
+.rg-q { margin: 0; font-family: var(--font-display); font-size: clamp(1.25rem, 1.9vw, 1.6rem); line-height: 1.2; }
+.rg-meta { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; justify-content: flex-end; }
+.rg-ladder { display: inline-flex; gap: 3px; align-items: flex-end; }
+.rg-ladder i { width: 6px; border: 1px solid var(--rule-strong); border-bottom: 0; }
+.rg-ladder i:nth-child(1) { height: 6px; } .rg-ladder i:nth-child(2) { height: 9px; } .rg-ladder i:nth-child(3) { height: 12px; } .rg-ladder i:nth-child(4) { height: 15px; } .rg-ladder i:nth-child(5) { height: 18px; }
+.rg-status { font-size: .82rem; color: var(--demo); }
+.rg-detail { grid-column: 2 / -1; padding: .6rem 0 0; color: var(--haze); font-size: .92rem; }
+.rg-detail ul { list-style: none; margin: 0 0 .5rem; padding: 0; }
+.rg-detail li { padding: .35rem 0; }
+.rg-detail b { color: var(--chalk); font-weight: 500; margin-inline-end: .4rem; }
+.rg-detail p { margin: 0; font-size: .85rem; }
+
+@media (max-width: 960px) {
+  .dossier { grid-template-columns: 1fr; }
+  .dz-evidence { position: static; }
+}
+@media (max-width: 860px) {
+  .ladder-head, .dossier-head { grid-template-columns: 1fr; }
+  .stamp { justify-self: start; margin-top: 1rem; }
+  .ladder { padding: 1.3rem 1rem; }
+  .ladder-rungs { gap: .35rem; }
+  .rung-l { font-size: .74rem; line-height: 1.2; }
+  .ladder-panel { grid-template-columns: 1fr; }
+  .dz-fields div { grid-template-columns: 1fr; gap: .25rem; }
+  .register > li { grid-template-columns: 1fr; }
+  .rg-meta { justify-content: flex-start; }
+  .rg-detail { grid-column: 1; }
+}
+
+/* ---------- the team's decision brief ---------- */
+.tf-source { margin: .6rem 0 0; }
+.team-findings { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong); }
+.tf { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 1rem; padding: 1.6rem 1.6rem 1.6rem 0; border-bottom: 1px solid var(--rule); }
+.tf:nth-child(even) { padding-inline-start: 1.6rem; border-inline-start: 1px solid var(--rule); }
+.tf-rank { font-family: var(--font-display); font-size: 2.2rem; line-height: 1; color: var(--brass); }
+.tf-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0 0 .35rem; font-size: .8rem; }
+.tf-domain { color: var(--glacier); }
+.tf-conf { color: var(--haze-dim); }
+.tf-q { margin: 0 0 .5rem; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.3rem, 1.8vw, 1.55rem); line-height: 1.2; }
+.tf-finding { margin: 0 0 .5rem; font-size: .95rem; line-height: 1.6; }
+.tf-more { color: var(--haze); font-size: .9rem; }
+.tf-more p { margin: .4rem 0; }
+.tf-treat { color: var(--haze-dim); font-size: .84rem; }
+.tf-check { display: inline-flex; gap: .4rem; align-items: center; margin-top: .6rem; font-size: .8rem; padding: .2rem .6rem; border-radius: 4px; border: 1px solid var(--rule); color: var(--haze); }
+.tf-check.is-ok { color: var(--good); border-color: rgb(var(--good-rgb) / .4); }
+.tf-check.is-off { color: var(--ember); border-color: rgb(var(--ember-rgb) / .5); }
+.tf-check.is-na { border-style: dashed; color: var(--haze-dim); }
+
+/* ---------- website findings ---------- */
+.wf-tabs { margin: 0 0 1.4rem; flex-wrap: wrap; }
+.wf-tabs .num { color: var(--brass); margin-inline-end: .2rem; }
+.dz-obs b { font-weight: 500; color: var(--ember); }
+.dz-ev .barlist { margin-top: 1rem; }
+.dz-ev .panel-table { margin-bottom: 1rem; }
+.recs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-strong); counter-reset: r; }
+.recs li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--rule); }
+.recs .num { font-family: var(--font-display); font-size: 1.8rem; color: var(--brass); line-height: 1; }
+.recs p { margin: 0; }
+.rec-owner { font-size: .8rem; color: var(--glacier); margin-bottom: .2rem !important; }
+
+@media (max-width: 860px) {
+  .team-findings { grid-template-columns: 1fr; }
+  .tf, .tf:nth-child(even) { padding: 1.3rem 0; border-inline-start: 0; grid-template-columns: 2.4rem minmax(0, 1fr); }
+}

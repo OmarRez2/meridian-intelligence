@@ -1,0 +1,34 @@
+body[data-route='concept-tidewater'] { background: #dcebe6; color: #0f3d40; }
+body[data-route='concept-tidewater'] #site-nav,
+body[data-route='concept-tidewater'] #site-nav.solid { background: rgba(220, 235, 230, .9); color: #0f3d40; border-color: rgba(15, 61, 64, .15); }
+body[data-route='concept-tidewater'] .nav-links a { color: #3f6e6d; }
+body[data-route='concept-tidewater'] .nav-links a[aria-current='page'] { color: #0f3d40; background: rgba(15, 61, 64, .08); }
+body[data-route='concept-tidewater'] .nav-links { background: #dcebe6; }
+body[data-route='concept-tidewater'] .brand-name small { color: #3f6e6d; }
+body[data-route='concept-tidewater'] :focus-visible { outline-color: #0f3d40; }
+
+.tw { --deep: #0f3d40; --teal: #3f8f88; --coral: #e2725b; }
+.tw-hero { position: relative; min-height: 100vh; display: flex; align-items: flex-end; padding: calc(var(--nav-h) + 2rem) var(--gutter) 12vh; overflow: hidden; }
+.tw-field { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tw-copy { position: relative; max-width: 54rem; }
+.tw-crumb { font-size: .9rem; margin: 0 0 1.5rem; }
+.tw-crumb a, .tw-back { color: var(--deep); }
+.tw-title { font-family: var(--font-ui); font-weight: 300; font-size: clamp(2.8rem, 7.4vw, 6.6rem); line-height: 1; letter-spacing: -.035em; margin: 0 0 1.6rem; }
+.tw-lede { font-size: 1.15rem; max-width: 34rem; line-height: 1.65; color: #24585a; margin: 0; }
+
+.tw-gauges { padding: 6rem var(--gutter) 5rem; max-width: 1300px; margin: 0 auto; }
+.tw-gauges h2 { font-weight: 300; font-size: clamp(2rem, 4vw, 3rem); margin: 0; letter-spacing: -.02em; }
+.tw-note { color: #3f6e6d; margin: .4rem 0 2.6rem; }
+.gauges { list-style: none; padding: 0; margin: 0 0 3rem; display: grid; grid-template-columns: repeat(8, 1fr); gap: 1.4rem; }
+.gauge { display: grid; gap: .8rem; justify-items: center; text-align: center; }
+.gauge b { font-weight: 400; font-size: .85rem; }
+.tube { position: relative; width: 100%; max-width: 84px; height: 280px; border: 1.5px solid var(--deep); border-radius: 42px; overflow: hidden; background: rgba(255, 255, 255, .35); }
+.water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to top, var(--deep), var(--teal)); transition: height 2.2s cubic-bezier(.34, 1.36, .64, 1); }
+.gauges.in .water { height: calc(var(--lvl) * 100%); }
+.gauge.low .water { background: linear-gradient(to top, #7d3a2c, var(--coral)); }
+.mark { position: absolute; left: 0; right: 0; bottom: calc(var(--mark) * 100%); height: 2px; background: var(--coral); }
+
+@media (max-width: 900px) {
+  .gauges { grid-template-columns: repeat(4, 1fr); }
+  .tube { height: 200px; }
+}

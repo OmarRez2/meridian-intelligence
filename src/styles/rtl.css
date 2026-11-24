@@ -1,0 +1,40 @@
+/*
+ * Right-to-left and bilingual details. Most of the layout already uses logical properties (inline-start/end),
+ * so it mirrors on its own; this file holds what cannot: positioned elements, directional icons, drawers,
+ * and the rule that charts, code and formulas keep a left-to-right axis inside an Arabic page.
+ */
+
+/* charts read left to right in both languages: time runs forward along x */
+svg.trend, svg.scatter, svg.strip, svg.spark, .j-figure, .ps-chart { direction: ltr; }
+/* numbers and Latin product names inside Arabic text keep their own order */
+[dir='rtl'] .bar-label, [dir='rtl'] .m-src { unicode-bidi: plaintext; }
+.bar-ref { left: auto; inset-inline-start: var(--ref); }
+
+/* positioned elements */
+[dir='rtl'] .skip-link { left: auto; right: 1rem; }
+[dir='rtl'] .page-pos { right: auto; left: 0; }
+[dir='rtl'] .scroll-cue { right: auto; left: var(--gutter); }
+[dir='rtl'] #sky-fallback svg { right: auto; left: -10vw; }
+[dir='rtl'] .drawer { right: auto; left: 0; transform: translateX(-102%); }
+[dir='rtl'] .drawer.open { transform: none; }
+[dir='rtl'] .drawer-inner { box-shadow: 30px 0 60px rgb(var(--shadow-rgb) / .4); }
+[dir='rtl'] .drawer-close { right: auto; left: 1.4rem; }
+[dir='rtl'] .node-tip { border-inline-start: 2px solid var(--brass); }
+
+/* directional marks */
+[dir='rtl'] .readout a::after { transform: rotate(-45deg); }
+[dir='rtl'] .readout a:hover { background: linear-gradient(to left, rgb(var(--ink-rgb) / .05), transparent); }
+[dir='rtl'] .ml-arrow { transform: scaleX(-1); display: inline-block; }
+[dir='rtl'] .nc-dial { transform: scaleX(-1); }
+
+/* Arabic display type: Amiri sits lower and wider than Cormorant, so headings get room to breathe */
+:root[lang='ar'] .display, :root[lang='ar'] .h-section, :root[lang='ar'] .sec-title { line-height: 1.35; }
+:root[lang='ar'] .page-title { font-size: clamp(2.3rem, 5vw, 4.2rem); }
+:root[lang='ar'] .hero-lede, :root[lang='ar'] .lede { line-height: 1.85; }
+:root[lang='ar'] .tf-q, :root[lang='ar'] .questions-list p, :root[lang='ar'] .q-text, :root[lang='ar'] .rg-q { line-height: 1.5; }
+:root[lang='ar'] .dz-fields .dz-obs dd { line-height: 1.6; }
+:root[lang='ar'] em, :root[lang='ar'] i { font-style: normal; }
+:root[lang='ar'] .hero-title { font-family: 'Cormorant Garamond', serif; }
+
+/* lavender is reserved for synthetic data; with project data these notes are plain */
+html[data-data='verified'] .drawer-foot, html[data-data='verified'] .drawer-note { color: var(--haze); }
