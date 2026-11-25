@@ -15,6 +15,9 @@ import { TEAM_FINDINGS } from '../content/findings';
 import { statusBadge } from '../components/shell';
 import { dataBadge, dataStatePanel } from '../components/datastate';
 import { Trend, BarList, tip } from '../charts/kit';
+import { PulseStrip, supplierRing, BacktestChart } from '../charts/lab';
+import { abcMatrix, lossAnatomy, leakage, supplierDependence, stockCapital, forecastCheck, HHI_HIGH } from '../data/lab';
+import '../styles/lab.css';
 import { esc } from '../lib/format';
 import { i18n, L, tr, segName, famName, pct, money, int, monthLabel, fmtDate } from '../i18n';
 
@@ -159,6 +162,78 @@ function slides(result: DataResult, ds: SupplyChainDataset | null, a: Analysis |
         </div>
         <p class="ps-note">${ds!.provenance.status === 'synthetic' ? statusBadge('synthetic') : statusBadge('unverified', L('Website analysis · not reviewed by the team', 'تحليل الموقع · لم يراجعه الفريق'))}</p>`;
       }),
+    },
+    {
+      id: 'lab-profit', kicker: () => L('Analytics Lab · Profit', 'مختبر التحليلات · الربحية'), rig: R({ p: 3, dist: 40, elev: 1.1, azim: -0.6, lookY: 1.4, plateX: 7.2, lines: 0.5 }),
+      html: needData(() => {
+        const abc = abcMatrix(ds!, 'revenue'), lo = lossAnatomy(ds!), [st] = lo.patterns;
+        const aLow = abc.rows.filter((x) => x.cls === 'A' && !x.highMargin).length, aAll = abc.rows.filter((x) => x.cls === 'A').length;
+        return `
+        <h2 class="display ps-h">${L('Profit is concentrated, and the losses are not random.', 'الربح متركّز، والخسائر ليست عشوائية.')}</h2>
+        <div class="pk-grid">
+          ${kpi(pct(abc.pareto.share), L(`of revenue from the top 20% of items (${int(abc.pareto.items)} of ${int(abc.rows.length)})`, `من الإيرادات من أعلى 20٪ من الأصناف (${int(abc.pareto.items)} من ${int(abc.rows.length)})`))}
+          ${kpi(`${int(aLow)}/${int(aAll)}`, L('class-A items earn below the median margin', 'من أصناف الفئة A هامشها دون الوسيط'))}
+          ${kpi(pct(st.lineShare), L(`of the ${int(lo.total.lines)} loss-making lines are on ${int(st.items)} items priced below cost`, `من ${int(lo.total.lines)} سطرًا خاسرًا تقع على ${int(st.items)} أصناف سعرها دون التكلفة`), lo.k80Structural ? L(`They are also the fewest items that pass 80% of loss lines.`, 'وهي أيضًا أقل عدد من الأصناف يتجاوز 80٪ من الأسطر الخاسرة.') : '')}
+          ${kpi(`${int(lo.activeMonths)}/${int(lo.months)}`, L('months with loss-making lines', 'شهرًا فيها أسطر خاسرة'))}
+        </div>
+        <div class="ps-lab-chart" data-chart="pulse"></div>
+        <p class="ps-note">${statusBadge('unverified', L('Website analysis · not reviewed by the team', 'تحليل الموقع · لم يراجعه الفريق'))} <a class="text-link" href="#/lab">${L('Open the Analytics Lab', 'افتح مختبر التحليلات')}</a></p>`;
+      }),
+      after: (el) => {
+        if (!ds) return;
+        const lo = lossAnatomy(ds);
+        const p = new PulseStrip(el.querySelector<HTMLElement>('[data-chart=pulse]')!, money); charts.push(p);
+        p.update(lo.byMonth.map((x) => ({ y: ds.months[x.mi].y, m: ds.months[x.mi].m, lines: x.lines, loss: x.loss })));
+      },
+    },
+    {
+      id: 'lab-supply', kicker: () => L('Analytics Lab · Supply and stock', 'مختبر التحليلات · التوريد والمخزون'), rig: R({ p: 0, dist: 40, elev: 0.95, azim: -0.5, lookY: 3, plateX: 7, lines: 0.5 }),
+      html: needData(() => {
+        const su = supplierDependence(ds!), lk = leakage(ds!), sc = stockCapital(ds!, 12);
+        return `
+        <h2 class="display ps-h">${L('Manage dependence and stock, not punctuality.', 'أدِر الاعتماد والمخزون، لا الالتزام بالمواعيد.')}</h2>
+        <div class="ps-explore">
+          <div class="ps-lab-ring" data-chart="ring"></div>
+          <div class="pk-grid ps-lab-k">
+            ${kpi(`${int(su.singleSourced.length)}/${int(su.families.length)}`, L('product families with a single supplier', 'عائلات منتجات لها مورد واحد'))}
+            ${kpi(su.hhi.spend.toFixed(2), L('spend concentration (HHI), descriptive only', 'تركّز الإنفاق (HHI)، وصفي فقط'), L(`Lead times ${int(su.lead.min)}–${int(su.lead.max)} days, all on time: nothing to rank.`, `مدد التوريد ${int(su.lead.min)}–${int(su.lead.max)} أيام، وكلها في موعدها: لا شيء للترتيب.`))}
+            ${kpi(pct(lk.rate), L('of ordered units never picked, rising each complete year', 'من الوحدات المطلوبة لم تُجهَّز، وتزداد كل سنة كاملة'))}
+            ${kpi(L(`${int(sc.cover.median)} mo`, `${int(sc.cover.median)} شهرًا`), L('median stock cover per item', 'وسيط تغطية المخزون للصنف'), L(`${pct(sc.excessShare)} of stock value sits beyond 12 months.`, `${pct(sc.excessShare)} من قيمة المخزون تتجاوز 12 شهرًا.`))}
+          </div>
+        </div>
+        <p class="ps-note">${statusBadge('unverified', L('Website analysis · not reviewed by the team', 'تحليل الموقع · لم يراجعه الفريق'))} <a class="text-link" href="#/lab">${L('Open the Analytics Lab', 'افتح مختبر التحليلات')}</a></p>`;
+      }),
+      after: (el) => {
+        if (!ds) return;
+        const su = supplierDependence(ds);
+        supplierRing(el.querySelector<HTMLElement>('[data-chart=ring]')!, su.rows.filter((x) => x.spend > 0).map((x) => ({ label: x.label, share: x.spendShare, pos: x.pos, group: x.group })), su.hhi.spend, HHI_HIGH);
+      },
+    },
+    {
+      id: 'lab-forecast', kicker: () => L('Analytics Lab · Forecast check', 'مختبر التحليلات · فحص التوقّع'), rig: R({ p: 3, dist: 44, elev: 1.15, azim: 0.2, lookY: 1, plateX: 7, lines: 0.4 }),
+      html: needData(() => {
+        const f = forecastCheck(ds!), [h1, h3] = f.horizons;
+        if (!h1.n || !h1.best) return ready;
+        const naive = (h: typeof h1) => h.models.find((m) => m.model === 'naive')!;
+        return `
+        <h2 class="display ps-h">${f.skilful ? L('One simple rule beat “last month” at every horizon.', 'قاعدة بسيطة واحدة تفوّقت على «الشهر السابق» في كل أفق.') : L('No simple rule beat “last month” at every horizon.', 'لم تتفوّق أي قاعدة بسيطة على «الشهر السابق» في كل أفق.')}</h2>
+        <div class="pk-grid">
+          ${kpi(pct(h1.best.mape), L(`average miss one month ahead (best rule), against ${pct(naive(h1).mape)} for “last month”`, `متوسط الفارق لشهر واحد (أفضل قاعدة)، مقابل ${pct(naive(h1).mape)} لـ«الشهر السابق»`))}
+          ${kpi(pct((h3.best ?? naive(h3)).mape), h3.beatsNaive ? L('average miss three months ahead (best rule)', 'متوسط الفارق لثلاثة أشهر (أفضل قاعدة)') : L('average miss three months ahead; nothing beat “last month”', 'متوسط الفارق لثلاثة أشهر؛ لم يتفوّق شيء على «الشهر السابق»'))}
+          ${kpi(`<bdi dir="ltr">${int(h3.n)}–${int(h1.n)}</bdi>`, L('past months scored, each forecast from earlier data only', 'شهرًا سابقًا مُقيَّمًا، كل توقّع من بيانات أسبق فقط'))}
+          ${kpi(L('None', 'لا يوجد'), L('forward forecast published', 'توقّع مستقبلي منشور'), L('A historical miss is not a prediction interval.', 'الفارق التاريخي ليس فترة تنبؤ.'))}
+        </div>
+        <div class="ps-lab-chart" data-chart="backtest"></div>
+        <p class="ps-note">${statusBadge('unverified', L('Methodology demo · historical backtest, not a forecast', 'عرض منهجي · اختبار رجعي تاريخي، لا توقّع'))} <a class="text-link" href="#/lab">${L('Open the Analytics Lab', 'افتح مختبر التحليلات')}</a></p>`;
+      }),
+      after: (el) => {
+        if (!ds) return;
+        const f = forecastCheck(ds), best = f.horizons[0].best, host = el.querySelector<HTMLElement>('[data-chart=backtest]');
+        if (!host || !best) return;
+        const names = { naive: L('Last month', 'الشهر السابق'), seasonal: L('Same month last year', 'الشهر نفسه من العام السابق'), avg3: L('3-month average', 'متوسط 3 أشهر'), avg12: L('12-month average', 'متوسط 12 شهرًا') };
+        const c = new BacktestChart(host, true); charts.push(c);
+        c.update({ months: ds.months, actual: f.series.map((x) => x.value), warmup: f.warmup, points: best.points, model: names[best.model], h: 1, fmt: money });
+      },
     },
     {
       id: 'recs', kicker: () => L('Recommendations', 'التوصيات'), rig: R({ p: 0, dist: 30, elev: 0.5, azim: 0.4, lookY: 3, plateX: 7 }),

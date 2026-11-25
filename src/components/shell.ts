@@ -1,6 +1,5 @@
 import { SITE } from '../content/site';
 import type { Bi, ValidationStatus } from '../data/types';
-import { requestedMode, hrefFor } from '../data/mode';
 import { L, tr, statusLabel } from '../i18n';
 
 /** The site is read as one sequence of chapters; the order drives headers, "next" links and the nav. */
@@ -10,6 +9,7 @@ export const SEQUENCE: { id: string; href: string; label: Bi; short: Bi }[] = [
   { id: 'hub', href: '#/observatory', label: { en: 'Observatory', ar: 'المرصد' }, short: { en: 'Observatory', ar: 'المرصد' } },
   { id: 'journey', href: '#/journey', label: { en: 'Data journey', ar: 'رحلة البيانات' }, short: { en: 'Journey', ar: 'الرحلة' } },
   { id: 'insights', href: '#/insights', label: { en: 'Insights', ar: 'الرؤى والتوصيات' }, short: { en: 'Insights', ar: 'الرؤى' } },
+  { id: 'lab', href: '#/lab', label: { en: 'Analytics Lab', ar: 'مختبر التحليلات' }, short: { en: 'Lab', ar: 'المختبر' } },
   { id: 'engineering', href: '#/engineering', label: { en: 'Engineering', ar: 'الهندسة' }, short: { en: 'Engineering', ar: 'الهندسة' } },
   { id: 'team', href: '#/team', label: { en: 'Team and resources', ar: 'الفريق والموارد' }, short: { en: 'Team', ar: 'الفريق' } },
 ];
@@ -52,7 +52,6 @@ export function statusBadge(status: ValidationStatus | 'placeholder' | 'pending'
 }
 
 export function siteFooter() {
-  const demo = requestedMode() === 'demo';
   return `
   <footer class="site-foot">
     <div class="sf-brand">
@@ -62,11 +61,9 @@ export function siteFooter() {
     <nav class="sf-nav" aria-label="${L('Footer', 'روابط التذييل')}">
       <ul>${SEQUENCE.map((s) => `<li><a href="${s.href}">${tr(s.label)}</a></li>`).join('')}<li><a href="#/present">${L('Presentation mode', 'وضع العرض التقديمي')}</a></li><li><a href="#/directions">${L('Design directions', 'الاتجاهات التصميمية')}</a></li></ul>
     </nav>
-    <div class="sf-notice">${demo ? `
-      <p><span class="status status-synthetic">${statusLabel('synthetic')}</span></p>
-      <p>${L('You are viewing the synthetic demo data. Every chart value in this view is generated for demonstration and is not a project result.', 'أنت تشاهد البيانات التجريبية المُولَّدة. كل قيمة في هذا العرض مُنشأة للتوضيح فقط وليست نتيجة من المشروع.')} <a href="${hrefFor('/', 'verified')}">${L('Return to the project data', 'العودة إلى بيانات المشروع')}</a>.</p>` : `
+    <div class="sf-notice">
       <p><span class="status status-reconciled">${statusLabel('reconciled')}</span></p>
-      <p>${L('Figures are computed by this website from the project’s read-only exports of the Wide World Importers database and reconcile with the team’s SQL benchmarks. The website’s own analysis has not yet been reviewed or approved by the team.', 'الأرقام محسوبة في هذا الموقع من مستخرجات المشروع للقراءة فقط من قاعدة بيانات Wide World Importers، وهي مطابقة لمعايير الفريق المحسوبة بـ SQL. أما تحليلات الموقع الخاصة فلم يراجعها الفريق أو يعتمدها بعد.')} <a href="${hrefFor('/observatory', 'demo')}">${L('Open the demo data', 'فتح البيانات التجريبية')}</a>.</p>`}
+      <p>${L('Figures are computed by this website from the project’s read-only exports of the Wide World Importers database and reconcile with the team’s SQL benchmarks. The website’s own analysis has not yet been reviewed or approved by the team.', 'الأرقام محسوبة في هذا الموقع من مستخرجات المشروع للقراءة فقط من قاعدة بيانات Wide World Importers، وهي مطابقة لمعايير الفريق المحسوبة بـ SQL. أما تحليلات الموقع الخاصة فلم يراجعها الفريق أو يعتمدها بعد.')}</p>
     </div>
   </footer>`;
 }

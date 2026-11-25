@@ -1,4 +1,4 @@
-// Browser checks for the data modes: real (verified, the default), demo, verified-unavailable and verified-invalid,
+// Browser checks for the data states: real (the only visitor mode), verified-unavailable and verified-invalid,
 // plus filters, drill-down and persistence across navigation, language and theme.
 // The dev server must be running (BASE_URL overrides the default). Uses the installed Chrome via
 // playwright-core. Writes nothing to disk.
@@ -26,7 +26,7 @@ const check = (name, ok, detail = '') => results.push(`${ok ? 'PASS' : 'FAIL'}  
 
 /** An invalid export: the real file's shape with broken references and a wrong benchmark (a copy; the file is untouched). */
 const broken = (() => { const ds = JSON.parse(JSON.stringify(real)); ds.facts[0].t = 99; ds.months[2].label = 'March 2013'; return ds; })();
-/** Demo values that must never appear in a real or empty view. */
+/** Synthetic (test-fixture) values that must never appear on the site. */
 const demoRevenue = computeMetric(syntheticDataset, 'revenue', ALL);
 const realRevenue = computeMetric(real, 'revenue', ALL);
 check('Fixture sanity: the real export reconciles to the team benchmark (172,261,341.20)', Math.abs(realRevenue - 172261341.2) < 0.01, String(realRevenue));
@@ -123,34 +123,25 @@ let realValues = [];
   await close();
 }
 
-/* ================================================================== demo, and its persistence */
+/* ================================================================== no visitor demo mode; persistence */
 {
-  const { page, close } = await open('#/observatory?data=demo');
-  check('Demo: provenance is marked as synthetic', (await count(page, '.provenance .demo-pill')) === 1);
-  const vals = (await kpis(page)).filter((v) => v.length > 3);
-  check('Demo: KPI values differ from the real ones', vals.join() !== realValues.join(), vals.join(' | '));
-  check('Demo: the drawer foot marks demonstration values', await (async () => { await page.focus('svg.trend'); await page.keyboard.press('ArrowLeft'); await page.keyboard.press('Enter'); await page.waitForTimeout(600); const t = await page.textContent('.drawer-foot'); await page.keyboard.press('Escape'); return t.includes('demonstration'); })());
-  await page.click('#tab-orders');
+  const { page, close } = await open('#/observatory?data=demo&d=orders');
+  check('No demo: an old ?data=demo link shows the real data', (await count(page, '.provenance .status-reconciled')) === 1 && (await count(page, '.provenance .demo-pill')) === 0);
+  check('No demo: the data parameter is dropped from the address, other parameters kept', !page.url().includes('data=') && page.url().includes('d=orders'), page.url());
+  check('No demo: the synthetic module is never loaded', !(await loadedSynthetic(page)));
+  check('No demo: no link or label offers demo data', !/demo data|البيانات التجريبية/i.test(await page.evaluate(() => document.body.innerText)) && (await count(page, 'a[href*="data=demo"]')) === 0);
   await page.click('.seg button[data-year="2015"]');
   await page.waitForTimeout(800);
   await page.click('.lang-toggle');
   await page.waitForTimeout(1800);
-  check('Persistence: switching to Arabic keeps the demo mode and domain', page.url().includes('data=demo') && page.url().includes('d=orders'), page.url());
+  check('Persistence: switching to Arabic keeps the domain', page.url().includes('d=orders'), page.url());
   check('Persistence: switching to Arabic sets dir=rtl and keeps the year filter', (await page.evaluate(() => document.documentElement.dir)) === 'rtl' && (await count(page, '.chip[data-clear="year"]')) === 1);
   await page.click('.theme-toggle');
   await page.waitForTimeout(800);
   check('Persistence: the theme toggle switches to light and keeps the data', (await page.evaluate(() => document.documentElement.dataset.theme)) === 'light' && (await count(page, '.kpi')) === 4 && (await skyKind(page)) === 'data');
   await page.click('.nav-links a[data-id="insights"]');
   await page.waitForTimeout(1800);
-  check('Persistence: a nav link keeps ?data=demo (sticky demo)', page.url().includes('data=demo'));
   check('Persistence: language and theme survive navigation', (await page.evaluate(() => document.documentElement.dir + '|' + document.documentElement.dataset.theme)) === 'rtl|light');
-  await close();
-}
-{
-  const { page, close } = await open('#/observatory?data=demo');
-  await page.evaluate(() => { location.hash = '#/observatory?data=verified'; });
-  await page.waitForTimeout(1800);
-  check('Same route, new mode: ?data=verified remounts into the real data', (await count(page, '.provenance .status-reconciled')) === 1 && (await count(page, '.provenance .demo-pill')) === 0);
   await close();
 }
 
@@ -162,16 +153,14 @@ for (const r of ROUTES) {
   const t = await text(page);
   check(`Missing: ${r} shows the unavailable state`, (await count(page, '.data-state[data-state="unavailable"]')) === 1);
   check(`Missing: ${r} shows no KPIs, previews, dossier or headlines`, (await count(page, '.kpi, .readout, .dossier, .q-list, .pk')) === 0);
-  check(`Missing: ${r} never falls back to demo values`, !t.includes(demoFmt) && !/Synthetic values|demonstration/.test(t) && !(await loadedSynthetic(page)));
+  check(`Missing: ${r} never falls back to synthetic values`, !t.includes(demoFmt) && !/Synthetic values|demonstration/.test(t) && !(await loadedSynthetic(page)));
   check(`Missing: ${r} sky is empty`, (await skyKind(page)) === 'empty');
   if (r === '#/') check('Missing: segment labels carry no shares, no rim years', (await count(page, '.ter .num')) === 0 && (await count(page, '.yr')) === 0);
   await close();
 }
 {
   const { page, close } = await open('#/observatory', null);
-  await page.click('.data-state a.btn');
-  await page.waitForTimeout(1800);
-  check('Missing → demo: "Switch to the demo data" opens the labelled demo', page.url().includes('data=demo') && (await count(page, '.provenance .demo-pill')) === 1);
+  check('Missing: the unavailable state offers no switch to other data', (await count(page, '.data-state a')) === 0);
   await close();
 }
 
@@ -181,7 +170,7 @@ for (const r of ['#/observatory', '#/', '#/insights']) {
   check(`Invalid: ${r} shows the rejected state`, (await count(page, '.data-state[data-state="invalid"]')) === 1);
   const issues = await page.$$eval('.data-state .ds-issues li', (e) => e.map((x) => x.textContent));
   check(`Invalid: ${r} lists the validation errors`, issues.some((t) => t.includes('facts[0].t')) && issues.some((t) => t.includes('months[2].label')), issues.join(' | '));
-  check(`Invalid: ${r} shows no values and loads no demo data`, (await count(page, '.kpi, .readout, .dossier, .q-list')) === 0 && !(await loadedSynthetic(page)));
+  check(`Invalid: ${r} shows no values and loads no synthetic data`, (await count(page, '.kpi, .readout, .dossier, .q-list')) === 0 && !(await loadedSynthetic(page)));
   check(`Invalid: ${r} sky is empty`, (await skyKind(page)) === 'empty');
   await close();
 }
@@ -196,10 +185,16 @@ for (const lang of ['en', 'ar']) {
   check(`Present (${lang}): the forward arrow advances a slide`, n0.trim().startsWith('1 /') && n1.trim().startsWith('2 /'), `${n0} -> ${n1}`);
   await page.keyboard.press('End');
   await page.waitForTimeout(1200);
-  check(`Present (${lang}): End jumps to the last slide and the URL keeps it`, /s=12/.test(page.url()));
+  check(`Present (${lang}): End jumps to the last slide and the URL keeps it`, /s=15/.test(page.url()));
   await page.goto(`${BASE}?lang=${lang}#/present?s=6`);
   await page.waitForTimeout(2000);
   check(`Present (${lang}): the numbers slide renders real KPIs and a chart`, (await count(page, '.pk')) === 4 && (await count(page, '.ps-chart svg')) === 1);
+  await page.goto(`${BASE}?lang=${lang}#/present?s=10`);
+  await page.waitForTimeout(2000);
+  check(`Present (${lang}): the Lab profit slide renders real figures and the loss pulse`, (await count(page, '.pk')) === 4 && (await count(page, '.lab-pulse rect.cell')) === 41);
+  await page.goto(`${BASE}?lang=${lang}#/present?s=11`);
+  await page.waitForTimeout(2000);
+  check(`Present (${lang}): the Lab supply slide renders the spend ring`, (await count(page, '.ps-lab-ring svg.lab-ring')) === 1 && (await count(page, '.pk')) === 4);
   await page.keyboard.press('Escape');
   await page.waitForTimeout(1500);
   check(`Present (${lang}): Escape leaves to the homepage`, (await page.evaluate(() => location.hash)) === '#/');

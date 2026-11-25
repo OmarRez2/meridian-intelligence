@@ -1,5 +1,4 @@
 import type { DataResult } from '../data/adapter';
-import { hrefFor } from '../data/mode';
 import { esc } from '../lib/format';
 import { L, statusLabel } from '../i18n';
 import { statusBadge } from './shell';
@@ -25,7 +24,7 @@ export const isReady = (r: DataResult): r is Extract<DataResult, { state: 'ready
 export const loadingState = (what?: string) => `<div class="data-state data-loading" role="status" aria-live="polite"><span class="ds-dial" aria-hidden="true"></span><p>${what ? esc(what) : L('Loading data…', 'جارٍ تحميل البيانات…')}</p></div>`;
 
 /**
- * Explains why no values are shown. `route` is the current route (for the "switch to demo" link);
+ * Explains why no values are shown. `route` is the current route (it names the heading id);
  * `compact` drops the heading for use inside a section that already has one.
  */
 export function dataStatePanel(r: Exclude<DataResult, { state: 'ready' }>, route: string, opts: { compact?: boolean; headingId?: string } = {}): string {
@@ -33,8 +32,8 @@ export function dataStatePanel(r: Exclude<DataResult, { state: 'ready' }>, route
   const invalid = r.state === 'invalid';
   const title = invalid ? L('Project data rejected', 'رُفضت بيانات المشروع') : L('No project data yet', 'لا توجد بيانات للمشروع بعد');
   const body = invalid
-    ? `${esc(r.reason)} ${L('Nothing from the file is shown, and demo values are not shown in its place.', 'لا يُعرض شيء من الملف، ولا تُعرض قيم تجريبية بدلًا منه.')}`
-    : `${esc(r.reason)} ${L('Figures appear here only from a validated export. Demo values are not shown in their place.', 'تظهر الأرقام هنا فقط من ملف مستخرج اجتاز التحقق، ولا تُعرض قيم تجريبية بدلًا منها.')}`;
+    ? `${esc(r.reason)} ${L('Nothing from the file is shown, and no other values are shown in its place.', 'لا يُعرض شيء من الملف، ولا تُعرض أي قيم أخرى بدلًا منه.')}`
+    : `${esc(r.reason)} ${L('Figures appear here only from the validated project export. No other values are shown in their place.', 'تظهر الأرقام هنا فقط من ملف المشروع المستخرج بعد اجتيازه التحقق، ولا تُعرض أي قيم أخرى بدلًا منها.')}`;
   const issues = invalid && r.report ? r.report.errors.slice(0, 8) : [];
   const more = invalid && r.report && r.report.errors.length > issues.length ? r.report.errors.length - issues.length : 0;
   return `
@@ -44,7 +43,6 @@ export function dataStatePanel(r: Exclude<DataResult, { state: 'ready' }>, route
     <p class="lede">${body}</p>
     ${invalid ? `<p class="ds-file">${L('File', 'الملف')}: <code>${esc(r.file)}</code></p>` : ''}
     ${issues.length ? `<ul class="ds-issues">${issues.map((i) => `<li><code>${esc(i.path || i.code)}</code> <span dir="ltr">${esc(i.message)}</span></li>`).join('')}${more ? `<li>${L(`…and ${more} more errors. The full list is in the browser console.`, `…و${more} أخطاء أخرى. القائمة الكاملة في وحدة تحكم المتصفح.`)}</li>` : ''}</ul>` : ''}
-    <a class="btn btn-ghost" href="${hrefFor(route, 'demo')}">${L('Switch to the demo data', 'التبديل إلى البيانات التجريبية')}</a>
   </section>`;
 }
 

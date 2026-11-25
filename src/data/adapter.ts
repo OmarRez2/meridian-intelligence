@@ -1,33 +1,25 @@
 import type { SupplyChainDataset } from './types';
 import type { ValidationReport } from './validate';
-import { requestedMode, type DataMode } from './mode';
+import type { DataMode } from './mode';
 
 /**
- * Single entry point for analytical data. Pages, the 3D scene and the design studies all go
- * through `getDataset()`; nothing else imports `synthetic.ts` or `verified.ts`.
+ * Single entry point for analytical data. Pages and the 3D scene go through `getDataset()`; nothing else
+ * imports `verified.ts`. The app never imports `synthetic.ts` (tests only).
  *
- *  - mode 'demo'     -> the seeded synthetic dataset, always labelled as such
- *  - mode 'verified' -> an approved export that passed validation, or an explicit 'unavailable' or
- *                       'invalid' state. Never demo data: in verified mode the synthetic module is not
- *                       even loaded.
- *
- * The mode comes from `?data=verified` in the hash query (default demo); see `mode.ts`.
+ * The result is the validated project export, or an explicit 'unavailable' or 'invalid' state. There is no
+ * fallback: if the project data is missing or fails validation, no values are shown.
  */
 export { requestedMode, type DataMode } from './mode';
 
 export type DataResult =
   | { state: 'ready'; mode: DataMode; dataset: SupplyChainDataset; report: ValidationReport | null; file: string | null }
-  | { state: 'unavailable'; mode: 'verified'; reason: string }
-  | { state: 'invalid'; mode: 'verified'; reason: string; file: string; report: ValidationReport | null };
+  | { state: 'unavailable'; mode: DataMode; reason: string }
+  | { state: 'invalid'; mode: DataMode; reason: string; file: string; report: ValidationReport | null };
 
-let demo: Promise<DataResult> | null = null;
 let verified: Promise<DataResult> | null = null;
 
-export function getDataset(mode: DataMode = requestedMode()): Promise<DataResult> {
-  if (mode === 'demo') {
-    demo ??= import('./synthetic').then((m): DataResult => ({ state: 'ready', mode, dataset: m.syntheticDataset, report: null, file: null }));
-    return demo;
-  }
+export function getDataset(): Promise<DataResult> {
+  const mode: DataMode = 'verified';
   verified ??= import('./verified').then(async (m): Promise<DataResult> => {
     const r = await m.loadVerifiedDataset();
     if (r.state === 'ready') return { state: 'ready', mode, dataset: r.dataset, report: r.report, file: r.file };

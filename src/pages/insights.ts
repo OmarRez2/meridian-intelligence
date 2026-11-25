@@ -265,7 +265,7 @@ const page: Page & { cleanup: (() => void)[] } = {
         </div>
       </section>
 
-      ${nextChapter('insights', L('How the data was profiled, cleaned, modelled and reconciled.', 'كيف حُلّلت البيانات ونُظّفت ونُمذجت وطوبقت.'))}
+      ${nextChapter('insights', L('Interactive instruments: which items carry the business, and where demand leaks away.', 'أدوات تفاعلية: أي الأصناف تحمل النشاط، وأين يتسرّب الطلب.'))}
       ${siteFooter()}
     </div>`;
 

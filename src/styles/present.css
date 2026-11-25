@@ -95,3 +95,12 @@ body.presenting { overflow: hidden; }
   .ps-full { display: none; }
 }
 html[data-motion='reduced'] .ps-progress span { transition: none; }
+
+/* Analytics Lab slides: reuse the Lab's charts at slide scale */
+.ps-lab-chart { margin-top: 1.4rem; max-width: 60rem; }
+.ps-lab-ring { display: flex; justify-content: center; }
+.ps-lab-ring .lab-ring { width: 100%; max-width: 380px; height: auto; }
+.ps-lab-k { grid-template-columns: 1fr 1fr; }
+.ps-note .text-link { margin-inline-start: .8rem; font-size: .9rem; }
+.ps-slide[data-slide^='lab-'] .pk-grid, .ps-slide[data-slide^='lab-'] .ps-lab-chart { background: rgb(var(--ground-rgb) / .78); backdrop-filter: blur(3px); }
+:root[data-theme='light'] .ps-slide[data-slide^='lab-'] .pk-grid, :root[data-theme='light'] .ps-slide[data-slide^='lab-'] .ps-lab-chart { background: rgb(var(--surface-rgb) / .86); }

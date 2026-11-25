@@ -291,9 +291,11 @@ export class Strip {
   private draw() {
     const r = this.el.getBoundingClientRect();
     const w = Math.max(300, r.width);
-    const rowH = 30, m = { t: 10, r: 18, b: 34, l: 92 };
+    const longest = Math.max(0, ...this.rows.map((x) => x.label.length));
+    const rowH = 30, m = { t: 10, r: 18, b: 34, l: Math.min(190, Math.max(92, longest * 6.4 + 16)) };
     const h = m.t + m.b + rowH * this.rows.length;
-    const hi = Math.max(10, ...this.rows.flatMap((x) => x.values)) * 1.05;
+    // the axis covers the promised lead times too, so a promise is never drawn off the scale
+    const hi = Math.max(10, ...this.rows.flatMap((x) => [...x.values, x.promise])) * 1.05;
     const x = scaleLinear().domain([0, hi]).range([m.l, w - m.r]).nice();
     this.svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     this.svg.style.height = `${h}px`;

@@ -1,20 +1,19 @@
 /**
- * Which dataset the visitor asked for. Kept free of imports so the shell can read it without
- * pulling either dataset into the entry bundle.
+ * Which dataset the website shows. Kept free of imports so the shell can read it without pulling the
+ * dataset into the entry bundle.
  *
- * Since phase 5 the verified (real, source-reconciled) dataset is the default. The synthetic demo is
- * opened with `?data=demo` in the hash query; `main.ts` carries that choice across navigation, so a
- * visitor who opens the demo stays in it until they choose `?data=verified` or follow a plain link home.
+ * Since the Analytics Lab milestone the website shows the project data only: the visitor-facing demo mode was
+ * removed at the owner's request. The synthetic generator (`synthetic.ts`) is kept for automated tests and is
+ * never loaded by the app. An old `?data=demo` link is ignored (main.ts strips it), so it shows the real data
+ * or, if that is missing or rejected, the explicit unavailable/invalid state, never generated values.
  */
-export type DataMode = 'demo' | 'verified';
+export type DataMode = 'verified';
 
 export function hashParams(hash = location.hash): URLSearchParams {
   return new URLSearchParams(hash.split('?')[1] ?? '');
 }
 
-export function requestedMode(hash = location.hash): DataMode {
-  return hashParams(hash).get('data') === 'demo' ? 'demo' : 'verified';
-}
+export const requestedMode = (): DataMode => 'verified';
 
 /** Returns `hash` with one query parameter set (or removed when `value` is null). */
 export function withParam(hash: string, key: string, value: string | null): string {
@@ -24,6 +23,3 @@ export function withParam(hash: string, key: string, value: string | null): stri
   const s = q.toString();
   return `#${path || '/'}${s ? `?${s}` : ''}`;
 }
-
-/** A link that switches to `mode` on `route`. Both modes are explicit, so the link also ends a sticky demo view. */
-export const hrefFor = (route: string, mode: DataMode) => withParam(`#${route}`, 'data', mode);

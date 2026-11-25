@@ -20,6 +20,7 @@ export const AMBIENT: Partial<Rig> = { p: 0, dist: 44, elev: 1.05, azim: 0.3, lo
  *  - Observatory: straight down onto the dial, far away and quiet
  *  - Journey: the refinement strata seen edge-on
  *  - Insights: the dial, close and oblique
+ *  - Analytics Lab: the dial from high above, turned the other way
  *  - Engineering: the network routes from above
  *  - Team: the constellations, high
  */
@@ -28,6 +29,7 @@ export const ROUTE_RIGS: Record<string, Partial<Rig>> = {
   hub: { ...AMBIENT, p: 3, dist: 46, elev: 1.25, azim: 0.3, lines: 0.5, stars: 0 },
   journey: { ...AMBIENT, p: 2, dist: 40, elev: 0.18, azim: 0.4, lookY: 4.5, stars: 0 },
   insights: { ...AMBIENT, p: 3, dist: 36, elev: 0.6, azim: 0.9, lookY: 2, stars: 0 },
+  lab: { ...AMBIENT, p: 3, dist: 50, elev: 1.2, azim: -0.7, lines: 0.4, stars: 0 },
   engineering: { ...AMBIENT, p: 1, dist: 42, elev: 1.1, azim: -0.2, stars: 0 },
   team: { ...AMBIENT, p: 0, dist: 34, elev: 0.75, azim: 0.6, lookY: 4, stars: 1 },
 };

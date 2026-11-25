@@ -40,14 +40,12 @@ applyLang();
 applyTheme();
 
 /* ---------- data mode ----------
- * The real (verified) dataset is the default. The demo view is sticky: once a visitor opens
- * `?data=demo`, links without a `data` parameter keep it, so no page silently mixes the two, until they
- * pick `?data=verified`. The page is remounted whenever the mode changes. */
-let mode: DataMode = requestedMode();
-window.addEventListener('hashchange', () => {
-  if (mode === 'demo' && !hashParams().has('data')) history.replaceState(null, '', withParam(location.hash, 'data', 'demo'));
-  mode = requestedMode();
-});
+ * The website shows the project data only (see data/mode.ts). A `data` parameter from an old link is
+ * dropped from the address so it cannot suggest another dataset. */
+const mode: DataMode = requestedMode();
+const dropDataParam = () => { if (hashParams().has('data')) history.replaceState(null, '', withParam(location.hash, 'data', null)); };
+dropDataParam();
+window.addEventListener('hashchange', dropDataParam);
 const syncMode = () => { document.documentElement.dataset.data = mode; };
 syncMode();
 
@@ -61,12 +59,12 @@ function useFallback(on = true) {
 async function syncSky() {
   syncMode();
   const s = stage.sky;
-  if (s) s.setData(skyFor(await getDataset(mode)));
+  if (s) s.setData(skyFor(await getDataset()));
 }
 async function bootSky() {
   if (!hasWebGL()) return useFallback();
   try {
-    const [{ Sky }, data] = await Promise.all([import('./scene/Sky'), getDataset(mode)]);
+    const [{ Sky }, data] = await Promise.all([import('./scene/Sky'), getDataset()]);
     const t0 = performance.now();
     stage.sky = new Sky(document.getElementById('sky') as HTMLCanvasElement, { reduced, coarse: isCoarse(), data: skyFor(data), light: theme.light });
     performance.measure('sky:build', { start: t0 }); // geometry and buffers, read by scripts/perf.mjs
@@ -165,6 +163,7 @@ const routes: Record<string, RouteDef> = {
   '/observatory': { id: 'hub', load: () => import('./pages/hub').then((m) => m.default) },
   '/journey': { id: 'journey', load: () => import('./pages/journey').then((m) => m.default) },
   '/insights': { id: 'insights', load: () => import('./pages/insights').then((m) => m.default) },
+  '/lab': { id: 'lab', load: () => import('./pages/lab').then((m) => m.default) },
   '/engineering': { id: 'engineering', load: () => import('./pages/engineering').then((m) => m.default) },
   '/team': { id: 'team', load: () => import('./pages/team').then((m) => m.default) },
   '/present': { id: 'present', load: () => import('./pages/present').then((m) => m.default) },

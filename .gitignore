@@ -57,3 +57,7 @@ docs/screenshots/*
 docs/screenshots/release/*
 !docs/screenshots/release/atlas.png
 !docs/screenshots/release/journey.png
+
+# SQL audit documents: kept locally, never published (they name the local SQL Server instance)
+docs/dw-integration-audit.md
+docs/sql-readonly-access-plan.md

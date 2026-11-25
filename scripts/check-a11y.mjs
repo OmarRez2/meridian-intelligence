@@ -21,6 +21,8 @@ const scrollThrough = async (p) => {
   await p.evaluate(async () => {
     for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
     scrollTo(0, 0);
+    // content-visibility: auto only defers rendering; audit every section in its rendered state, not as a skipped box
+    const st = document.createElement('style'); st.textContent = '.lab-inst, .lab-close { content-visibility: visible !important; }'; document.head.append(st);
   });
   await p.waitForTimeout(600);
 };
@@ -39,10 +41,17 @@ const CASES = [
   ['insights', desktop, '#/insights', scrollThrough],
   ['engineering', desktop, '#/engineering', scrollThrough],
   ['team', desktop, '#/team', scrollThrough],
-  ['demo-observatory', desktop, '#/observatory?data=demo', null],
-  ['demo-atlas', desktop, '#/?data=demo', scrollThrough],
+  ['lab', desktop, '#/lab', scrollThrough],
+  ['light-lab', desktop, '?theme=light#/lab', scrollThrough],
+  ['ar-lab', desktop, '?lang=ar#/lab', scrollThrough],
+  ['ar-light-lab', desktop, '?lang=ar&theme=light#/lab', scrollThrough],
+  ['phone-lab', phone, '#/lab', scrollThrough],
   ['present', desktop, '#/present?s=6', null],
-  ['present-team', desktop, '#/present?s=11', null],
+  ['present-team', desktop, '#/present?s=14', null],
+  ['present-lab-forecast', desktop, '#/present?s=12', null],
+  ['ar-light-present-lab-forecast', desktop, '?lang=ar&theme=light#/present?s=12', null],
+  ['present-lab-profit', desktop, '#/present?s=10', null],
+  ['ar-light-present-lab-supply', desktop, '?lang=ar&theme=light#/present?s=11', null],
   ['light-atlas', desktop, '?theme=light#/', scrollThrough],
   ['light-observatory', desktop, '?theme=light#/observatory', null],
   ['light-present', desktop, '?theme=light#/present?s=7', null],
