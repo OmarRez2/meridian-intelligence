@@ -8,15 +8,15 @@ import type { Bi } from '../data/types';
  *    (repeated on slide 18 of the final presentation)
  *  - documented contributions: README.md, PROJECT_STATUS.md and the candidate ETL README of the project
  *  - profile links: given by each member (the team leader's from his CV), never guessed
- * Anything not documented is shown as "awaiting confirmation", not invented. Arabic spellings of the names
- * are transliterations and need each member's confirmation before publication.
+ * Anything not documented is shown as "awaiting confirmation", not invented. All six members consented to the
+ * public publication of their names (both spellings), portraits and profile links (recorded 2026-11-25).
  */
 
 export const SITE = {
   name: 'WWI Supply Chain Intelligence',
   programme: 'DEPI Graduation Project',
-  /** Base URL for canonical and Open Graph tags once a hosting location is approved. */
-  siteUrl: null as string | null,
+  /** Public site (GitHub Pages). */
+  siteUrl: 'https://omarrez2.github.io/meridian-intelligence/' as string | null,
 };
 
 /** Project identity: "WWI Supply Chain Intelligence" and "DEPI Graduation Project". The team is never numbered. */

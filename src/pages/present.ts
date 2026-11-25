@@ -277,7 +277,7 @@ function slides(result: DataResult, ds: SupplyChainDataset | null, a: Analysis |
             { key: 'end', label: L('Scenario', 'السيناريو'), basis: 'total', delta: 0 },
           ]);
           const out = el.querySelector<HTMLElement>('[data-ps-sim-out]')!;
-          const d = r.delta, sign = d >= 0 ? '+' : '−';
+          const d = r.delta, sign = d >= 0 ? '+' : '−\u2060';
           const ev = `<bdi dir="ltr">−${-e}</bdi>`, mv = `<bdi>${esc(sign + money(Math.abs(d)))}</bdi>`;
           out.innerHTML = e === 0
             ? L(`Volume unchanged (an assumption): ${mv}. Nothing here says customers would behave this way.`, `الكمية ثابتة (افتراض): ${mv}. ولا شيء هنا يقول إن العملاء سيتصرفون هكذا.`)

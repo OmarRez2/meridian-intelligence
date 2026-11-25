@@ -26,7 +26,7 @@ type Kind = 'finding' | 'calc' | 'hypothesis';
 const KIND = (): Record<Kind, string> => ({ finding: L('Recorded', 'مسجَّل'), calc: L('Calculation', 'حساب'), hypothesis: L('Assumption', 'افتراض') });
 const claim = (k: Kind, html: string) => `<li class="claim claim-${k}"><p class="claim-kind"><span aria-hidden="true" class="claim-mark"></span>${KIND()[k]}</p><p class="claim-text">${html}</p></li>`;
 const b = (s: string) => `<b class="num">${s}</b>`;
-const sgn = (v: number, f: (x: number) => string) => (v > 0 ? `+${f(v)}` : v < 0 ? f(v).replace(/^-/, '−') : f(0));
+const sgn = (v: number, f: (x: number) => string) => (v > 0 ? `+${f(v)}` : v < 0 ? f(v).replace(/^-/, '−\u2060') : f(0));
 const sp = (v: number, d = 1) => sgn(v, (x) => pct(x, d));
 const ef = (v: number) => v.toFixed(2).replace('-', '−');
 const sm = (v: number) => (Math.abs(v) < 0.5 ? money(0) : sgn(v, money));
