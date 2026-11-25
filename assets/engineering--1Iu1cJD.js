@@ -1,0 +1,131 @@
+import{H as e,St as t,U as n,V as r,W as i,tt as a,yt as o}from"./index-Cp_ZfTbz.js";import{n as s,r as c,t as l}from"./tabs-CCYbcGZq.js";import{t as u}from"./format-BBi0te7M.js";var d=new Set(`select from where join left right inner outer on as and or not null is case when then else end group by order having count distinct sum min max avg with union all insert into values update set delete create view table top in exists between like cast convert`.split(` `)),f=new Set(`divide calculate sameperiodlastyear sumx sum averagex countrows distinctcount filter all allselected values related selectedvalue max min if switch true false blank datesytd edate var return keepfilters removefilters treatas`.split(` `));function p(e,t){let n=/(--[^\n]*|\/\/[^\n]*)|('(?:[^']|'')*')|("(?:[^"])*")|(\[[^\]\n]+\])|(\b\d+(?:\.\d+)?\b)|([A-Za-z_][A-Za-z0-9_]*)|(\s+)|(.)/g,r=``;for(let i of e.matchAll(n)){let[e,n,a,o,s,c,l]=i;if(n)r+=`<span class="c-com">${u(n)}</span>`;else if(a)r+=`<span class="${t===`dax`?`c-tbl`:`c-str`}">${u(a)}</span>`;else if(o)r+=`<span class="c-str">${u(o)}</span>`;else if(s)r+=`<span class="c-col">${u(s)}</span>`;else if(c)r+=`<span class="c-num">${c}</span>`;else if(l){let e=l.toLowerCase();t===`sql`&&d.has(e)||t===`dax`&&f.has(e)?r+=`<span class="c-kw">${u(l)}</span>`:r+=u(l)}else r+=u(e)}return r}function m(e,t,n){let r=e.split(`
+`).length;return`<figure class="code"><figcaption><span>${u(n)}</span><span class="code-lang">${t.toUpperCase()}</span></figcaption><pre class="code-pre" style="--lines:${r}" tabindex="0" aria-label="${u(n)}, ${t.toUpperCase()} code"><code>${p(e,t)}</code></pre></figure>`}var h=(e,t)=>({en:e,ar:t}),g=[{id:`src`,label:h(`Source database`,`قاعدة المصدر`),sub:h(`Operational sample`,`عيّنة تشغيلية`),col:1,row:1,tone:`brass`,role:h(`The operational Wide World Importers database on SQL Server. It is read, never written to.`,`قاعدة بيانات Wide World Importers التشغيلية على SQL Server. يُقرأ منها فقط، ولا يُكتب فيها أبدًا.`)},{id:`raw`,label:h(`Raw layer`,`الطبقة الخام`),sub:h(`Bronze`,`البرونزية`),col:2,row:1,tone:`haze`,role:h(`A faithful copy of the source tables, so later steps never need to touch the source again.`,`نسخة أمينة من جداول المصدر، فلا تحتاج المراحل اللاحقة إلى الرجوع إلى المصدر مرة أخرى.`)},{id:`clean`,label:h(`Cleaned layer`,`الطبقة المنظَّفة`),sub:h(`Silver`,`الفضية`),col:3,row:1,tone:`chalk`,role:h(`Types, keys and joins made consistent. Quality rules run here, and failing records are flagged for review.`,`تُوحَّد فيها الأنواع والمفاتيح والروابط. وتُطبَّق هنا قواعد الجودة، وتُعلَّم السجلات المخالفة للمراجعة.`)},{id:`gold`,label:h(`Analytical layer`,`الطبقة التحليلية`),sub:h(`Gold views`,`العروض الذهبية`),col:4,row:1,tone:`glacier`,role:h(`Views shaped for analysis: facts and dimensions ready for the semantic model.`,`عروض مهيّأة للتحليل: حقائق وأبعاد جاهزة للنموذج الدلالي.`)},{id:`model`,label:h(`Semantic model`,`النموذج الدلالي`),sub:h(`Power BI`,`Power BI`),col:5,row:1,tone:`glacier`,role:h(`Imports the analytical layer and defines relationships and DAX measures once, for every page.`,`يستورد الطبقة التحليلية ويعرّف العلاقات ومقاييس DAX مرة واحدة لكل الصفحات.`)},{id:`report`,label:h(`Report`,`التقرير`),sub:h(`Power BI pages`,`صفحات Power BI`),col:6,row:1,tone:`glacier`,role:h(`Pages for each domain, with filters and drill-through. Desktop runtime checks are still to be done.`,`صفحة لكل مجال، مع المرشحات والتعمق في التفاصيل. ولا تزال فحوص التشغيل في Power BI Desktop قيد الإنجاز.`)},{id:`csv`,label:h(`CSV exports`,`مستخرجات CSV`),sub:h(`Independent copy`,`نسخة مستقلة`),col:2,row:2,tone:`haze`,role:h(`Exports of the source tables used by a separate, script-based cleaning process.`,`مستخرجات من جداول المصدر تستخدمها عملية تنظيف منفصلة قائمة على السكربتات.`)},{id:`py`,label:h(`Cleaning cross-check`,`تنظيف للمقارنة`),sub:h(`Python and pandas`,`Python وpandas`),col:3,row:2,tone:`chalk`,role:h(`An independent cleaning of the exports. Its results are compared with the cleaned layer to catch errors in either.`,`تنظيف مستقل للمستخرجات، تُقارن نتائجه بالطبقة المنظَّفة لاكتشاف الأخطاء في أيٍّ منهما.`)}],_=[[`src`,`raw`],[`raw`,`clean`],[`clean`,`gold`],[`gold`,`model`],[`model`,`report`],[`src`,`csv`],[`csv`,`py`],[`py`,`clean`,!0]],v={Sales:{note:h(`Customers, their orders and invoices.`,`العملاء وطلباتهم وفواتيرهم.`),tables:[[`Customers`,h(`One row per customer, with category, buying group and delivery city`,`صف لكل عميل، مع فئته ومجموعة الشراء ومدينة التسليم`)],[`Orders`,h(`One row per customer order, with order and expected delivery dates`,`صف لكل طلب عميل، مع تاريخ الطلب وتاريخ التسليم المتوقع`)],[`OrderLines`,h(`One row per item ordered; quantities and picked quantities`,`صف لكل صنف مطلوب؛ الكميات المطلوبة والمجهَّزة`)],[`Invoices`,h(`One row per invoice raised against an order`,`صف لكل فاتورة صادرة على طلب`)],[`InvoiceLines`,h(`One row per invoiced item, with price and line profit`,`صف لكل صنف مفوتر، مع السعر وربح السطر`)],[`CustomerTransactions`,h(`Invoices, payments and adjustments on customer accounts`,`الفواتير والمدفوعات والتسويات على حسابات العملاء`)]]},Purchasing:{note:h(`Suppliers and what is bought from them.`,`الموردون وما يُشترى منهم.`),tables:[[`Suppliers`,h(`One row per supplier, with category and payment terms`,`صف لكل مورد، مع فئته وشروط الدفع`)],[`PurchaseOrders`,h(`One row per purchase order, with expected delivery date`,`صف لكل أمر شراء، مع تاريخ التسليم المتوقع`)],[`PurchaseOrderLines`,h(`One row per item ordered; quantities ordered and received`,`صف لكل صنف مطلوب؛ الكميات المطلوبة والمستلمة`)],[`SupplierTransactions`,h(`Supplier invoices, payments and adjustments`,`فواتير الموردين ومدفوعاتهم وتسوياتهم`)]]},Warehouse:{note:h(`Stock items and every movement of stock.`,`أصناف المخزون وكل حركة عليه.`),tables:[[`StockItems`,h(`One row per product, with supplier, unit price and lead time`,`صف لكل منتج، مع المورد وسعر الوحدة ومدة التوريد`)],[`StockItemHoldings`,h(`Current quantity on hand, reorder level and target level per item`,`الكمية المتاحة حاليًا، وحد إعادة الطلب، والمستوى المستهدف لكل صنف`)],[`StockItemTransactions`,h(`Every receipt, sale and adjustment of stock`,`كل استلام وبيع وتسوية للمخزون`)],[`StockGroups`,h(`Product groupings such as Novelty Items or Mugs`,`مجموعات المنتجات مثل السلع الطريفة أو الأكواب`)]]},Application:{note:h(`Shared reference data: people, places and methods.`,`بيانات مرجعية مشتركة: الأشخاص والأماكن والطرق.`),tables:[[`People`,h(`Staff and contacts. Includes personal fields the analysis excludes`,`الموظفون وجهات الاتصال. ويتضمن حقولًا شخصية يستبعدها التحليل`)],[`Cities`,h(`Cities with their state`,`المدن مع ولاياتها`)],[`StateProvinces`,h(`States with their sales territory`,`الولايات مع مناطق مبيعاتها`)],[`DeliveryMethods`,h(`How goods are delivered`,`طرق تسليم البضائع`)]]}},y=[{t:h(`Completeness`,`الاكتمال`),q:h(`Is every required value present?`,`هل كل قيمة مطلوبة موجودة؟`),ex:h(`An order line without a stock item cannot be analysed by product.`,`سطر الطلب الذي لا يحمل صنفًا لا يمكن تحليله حسب المنتج.`)},{t:h(`Validity`,`الصلاحية`),q:h(`Is each value in its allowed range and type?`,`هل كل قيمة ضمن نطاقها ونوعها المسموحين؟`),ex:h(`A quantity of zero or less on an order line is flagged.`,`تُعلَّم الكمية التي تساوي صفرًا أو أقل في سطر الطلب.`)},{t:h(`Consistency`,`الاتساق`),q:h(`Do related records agree?`,`هل تتفق السجلات المترابطة؟`),ex:h(`An invoiced quantity higher than the ordered quantity is flagged.`,`تُعلَّم الكمية المفوترة إذا زادت على الكمية المطلوبة.`)},{t:h(`Uniqueness`,`التفرّد`),q:h(`Is each entity recorded once?`,`هل يُسجَّل كل كيان مرة واحدة؟`),ex:h(`Two customer rows with the same name and address are reviewed.`,`يُراجَع صفّا عميل يحملان الاسم والعنوان نفسيهما.`)},{t:h(`Referential integrity`,`سلامة المراجع`),q:h(`Does every reference point to something real?`,`هل يشير كل مرجع إلى شيء موجود فعلًا؟`),ex:h(`An order that names a customer who does not exist is held.`,`يُعلَّق الطلب الذي يذكر عميلًا غير موجود.`)},{t:h(`Timeliness`,`التسلسل الزمني`),q:h(`Do the dates make sense in order?`,`هل تتسلسل التواريخ تسلسلًا منطقيًا؟`),ex:h(`A delivery recorded before its order date is flagged.`,`يُعلَّم التسليم المسجَّل قبل تاريخ طلبه.`)}],b=[{id:`fsales`,label:h(`Sales`,`المبيعات`),kind:`fact`,x:300,y:165,grain:h(`One row per invoiced line`,`صف لكل سطر مفوتر`)},{id:`fpurch`,label:h(`Purchases`,`المشتريات`),kind:`fact`,x:560,y:245,grain:h(`One row per purchase order line`,`صف لكل سطر في أمر شراء`)},{id:`date`,label:h(`Date`,`التاريخ`),kind:`dim`,x:430,y:60,grain:h(`One row per calendar day`,`صف لكل يوم في التقويم`)},{id:`cust`,label:h(`Customer`,`العميل`),kind:`dim`,x:110,y:70,grain:h(`One row per customer`,`صف لكل عميل`)},{id:`city`,label:h(`City and territory`,`المدينة والمنطقة`),kind:`dim`,x:90,y:250,grain:h(`One row per city, with its sales territory`,`صف لكل مدينة، مع منطقة مبيعاتها`)},{id:`item`,label:h(`Stock item`,`صنف المخزون`),kind:`dim`,x:430,y:330,grain:h(`One row per product, with its stock group`,`صف لكل منتج، مع مجموعته`)},{id:`emp`,label:h(`Salesperson`,`مندوب المبيعات`),kind:`dim`,x:250,y:345,grain:h(`One row per employee`,`صف لكل موظف`)},{id:`supp`,label:h(`Supplier`,`المورد`),kind:`dim`,x:700,y:130,grain:h(`One row per supplier`,`صف لكل مورد`)}],x=[[`fsales`,`date`],[`fsales`,`cust`],[`fsales`,`city`],[`fsales`,`item`],[`fsales`,`emp`],[`fpurch`,`date`],[`fpurch`,`item`],[`fpurch`,`supp`]],S=[{id:`profile`,tab:h(`Profiling`,`التحليل الوصفي`),lang:`sql`,label:h(`Profile a source table`,`تحليل وصفي لجدول من المصدر`),why:h(`Before changing anything, establish size, date range and how many orders are still unpicked.`,`قبل أي تغيير، حدّد الحجم ونطاق التواريخ وعدد الطلبات التي لم تُجهَّز بعد.`),code:`-- Profile a source table before transforming it
+SELECT
+    COUNT(*)                        AS row_count,
+    COUNT(DISTINCT o.CustomerID)    AS customers,
+    MIN(o.OrderDate)                AS first_order,
+    MAX(o.OrderDate)                AS last_order,
+    SUM(CASE WHEN o.PickingCompletedWhen IS NULL
+             THEN 1 ELSE 0 END)     AS not_yet_picked
+FROM Sales.Orders AS o;`},{id:`rule`,tab:h(`Quality rule`,`قاعدة جودة`),lang:`sql`,label:h(`Referential integrity check`,`فحص سلامة المراجع`),why:h(`Rows returned are held for review. They are not deleted or repaired by the check.`,`الصفوف التي يعيدها الفحص تُعلَّق للمراجعة، ولا يحذفها الفحص ولا يصلحها.`),code:`-- Order lines must reference an existing stock item
+SELECT ol.OrderLineID,
+       ol.StockItemID
+FROM Sales.OrderLines AS ol
+LEFT JOIN Warehouse.StockItems AS si
+       ON si.StockItemID = ol.StockItemID
+WHERE si.StockItemID IS NULL;  -- held for review, not deleted`},{id:`margin`,tab:h(`Measure`,`مقياس`),lang:`dax`,label:h(`Gross margin measure`,`مقياس الهامش الإجمالي`),why:h(`DIVIDE returns blank instead of an error when revenue is zero, so empty filters stay empty.`,`تعيد الدالة DIVIDE قيمة فارغة بدل الخطأ عندما تكون الإيرادات صفرًا، فتبقى المرشحات الفارغة فارغة.`),code:`Gross Margin % =
+DIVIDE ( [Gross Profit], [Revenue] )  // blank when revenue is zero`},{id:`lfl`,tab:h(`Comparison`,`مقارنة`),lang:`dax`,label:h(`Like-for-like change`,`التغيّر على أساس مماثل`),why:h(`The sample ends in May 2016, so a partial year must be compared with the same months of the year before.`,`تنتهي العيّنة في مايو 2016، لذا تُقارن السنة الجزئية بالأشهر نفسها من السنة السابقة.`),code:`Revenue Change vs Same Months LY =
+VAR CurrentRevenue = [Revenue]
+VAR PriorRevenue =
+    CALCULATE ( [Revenue], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+RETURN
+    DIVIDE ( CurrentRevenue - PriorRevenue, PriorRevenue )`}],C=h(`Project rule`,`قاعدة في المشروع`),w=h(`Project record`,`من سجل المشروع`),T=[{t:h(`The source is read only`,`المصدر للقراءة فقط`),why:h(`All transformation happens in separate layers, so the shared source database stays exactly as delivered.`,`تجري التحويلات كلها في طبقات منفصلة، فتبقى قاعدة المصدر المشتركة كما سُلّمت تمامًا.`),status:C},{t:h(`Findings are preserved, not silently fixed`,`الملاحظات تُحفظ ولا تُصلح بصمت`),why:h(`A data problem is evidence. It is recorded and left for the team to decide on, rather than corrected out of sight.`,`مشكلة البيانات دليل؛ تُسجَّل ويُترك القرار فيها للفريق، بدل تصحيحها بعيدًا عن الأنظار.`),status:C},{t:h(`An independent cleaning cross-check`,`تنظيف مستقل للمقارنة`),why:h(`A second, script-based cleaning of exported data gives a reference to compare the SQL layers against.`,`تنظيف ثانٍ للبيانات المستخرجة بالسكربتات يوفّر مرجعًا تُقارن به طبقات SQL.`),status:w},{t:h(`One report project`,`مشروع تقرير واحد`),why:h(`The team keeps a single Power BI project as the deliverable, so there is one place where measures are defined.`,`يعتمد الفريق مشروع Power BI واحدًا مُخرَجًا للمشروع، فيكون للمقاييس مكان تعريف واحد.`),status:w}],E=[{t:h(`Agreeing on one number`,`الاتفاق على رقم واحد`),d:h(`The same measure has to agree in SQL, in the model and in the written documentation before it can be published.`,`يجب أن يتطابق المقياس نفسه في SQL وفي النموذج وفي التوثيق المكتوب قبل نشره.`)},{t:h(`A partial final year`,`سنة أخيرة جزئية`),d:h(`The sample ends in May 2016, so year-on-year comparisons must use the same months of each year.`,`تنتهي العيّنة في مايو 2016، لذا يجب أن تقارن المقارنات السنوية الأشهر نفسها من كل سنة.`)},{t:h(`Runtime checks still to come`,`فحوص التشغيل لم تكتمل بعد`),d:h(`Refresh, rendering, navigation and drill-through in Power BI Desktop have not been verified yet.`,`لم يُتحقق بعد من التحديث والعرض والتنقل والتعمق في التفاصيل داخل Power BI Desktop.`)}],D={cleanup:[],mount(u){let d=a(`Project record, pending team review`,`من سجل المشروع، بانتظار مراجعة الفريق`);u.innerHTML=`
+    <div class="engineering page-pad">
+      ${e(`engineering`,a(`How the numbers are made.`,`كيف تُصنع الأرقام.`),a(`The data engineering behind the project: where the data comes from, how it is checked, how it is modelled and how a measure is confirmed before anyone relies on it.`,`هندسة البيانات وراء المشروع: من أين تأتي البيانات، وكيف تُفحص، وكيف تُنمذج، وكيف يُثبَّت المقياس قبل أن يعتمد عليه أحد.`))}
+
+      <section class="section" aria-labelledby="en-arch">
+        <div class="en-head">
+          <h2 class="sec-title" id="en-arch">${a(`Architecture`,`البنية`)}</h2>
+          <p class="sec-note">${a(`Select a component to see its role.`,`اختر مكوّنًا لترى دوره.`)} ${i(`unverified`,d)}</p>
+        </div>
+        <div class="arch panel-frame" data-reveal>
+          <div class="arch-grid" role="tablist" aria-label="${a(`Architecture components`,`مكوّنات البنية`)}">
+            <svg class="arch-wires" aria-hidden="true"></svg>
+            ${g.map(e=>`<button role="tab" data-tab="${e.id}" id="arch-${e.id}" aria-controls="arch-panel" class="arch-node tone-${e.tone}" style="grid-column:${e.col};grid-row:${e.row}"><b>${o(e.label)}</b><span>${o(e.sub)}</span></button>`).join(``)}
+          </div>
+          <div class="arch-panel" id="arch-panel" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="en-schema">
+        <div class="en-head">
+          <h2 class="sec-title" id="en-schema">${a(`Understanding the source`,`فهم المصدر`)}</h2>
+          <p class="sec-note">${a(`The main schemas of the public sample database and the tables the analysis leans on.`,`المخططات الرئيسية في قاعدة البيانات النموذجية العامة، والجداول التي يعتمد عليها التحليل.`)} ${i(`illustrative`,a(`Public sample schema`,`مخطط العيّنة العامة`))}</p>
+        </div>
+        <div class="schema" data-reveal>
+          <div class="tablist schema-tabs" role="tablist" aria-label="${a(`Source schemas`,`مخططات المصدر`)}">
+            ${Object.keys(v).map(e=>`<button role="tab" data-tab="${e}" id="sch-${e}" aria-controls="schema-panel" dir="ltr">${e}</button>`).join(``)}
+          </div>
+          <div class="schema-panel" id="schema-panel" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <section class="section sec-grid" aria-labelledby="en-quality">
+        <div class="sec-aside">
+          <h2 class="sec-title" id="en-quality">${a(`Data quality`,`جودة البيانات`)}</h2>
+          <p class="sec-note">${a(`Six questions every table is asked. The examples show the kind of rule used; they are written for this page.`,`ستة أسئلة يُسأل عنها كل جدول. والأمثلة توضّح نوع القواعد المستخدمة، وقد كُتبت لهذه الصفحة.`)} ${i(`illustrative`)}</p>
+        </div>
+        <ul class="quality" data-reveal>
+          ${y.map((e,t)=>`<li><button type="button" aria-expanded="false" aria-controls="q-${t}"><span class="q-t">${o(e.t)}</span><span class="q-q">${o(e.q)}</span></button><p id="q-${t}" hidden>${o(e.ex)}</p></li>`).join(``)}
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="en-model">
+        <div class="en-head">
+          <h2 class="sec-title" id="en-model">${a(`Dimensional model`,`النموذج البُعدي`)}</h2>
+          <p class="sec-note">${a(`A star schema: facts in the centre, the dimensions that describe them around the edge. Point at or focus a table to trace its relationships.`,`مخطط نجمي: الحقائق في الوسط، والأبعاد التي تصفها حولها. أشر إلى جدول أو ركّز عليه لتتبّع علاقاته.`)} ${i(`illustrative`,a(`Illustrative model`,`نموذج توضيحي`))}</p>
+        </div>
+        <div class="star panel-frame" data-reveal>
+          <svg class="star-svg" viewBox="0 0 800 400" role="group" aria-label="${a(`Illustrative star schema`,`مخطط نجمي توضيحي`)}">
+            <g class="rels">${x.map(([e,t])=>{let n=b.find(t=>t.id===e),r=b.find(e=>e.id===t);return`<line data-a="${e}" data-b="${t}" x1="${n.x}" y1="${n.y}" x2="${r.x}" y2="${r.y}"/><text data-a="${e}" data-b="${t}" class="card" x="${n.x+(r.x-n.x)*.78}" y="${n.y+(r.y-n.y)*.78-5}">1</text><text data-a="${e}" data-b="${t}" class="card" x="${n.x+(r.x-n.x)*.2}" y="${n.y+(r.y-n.y)*.2-5}">*</text>`}).join(``)}</g>
+            ${b.map(e=>`<g class="ent ent-${e.kind}" data-id="${e.id}" tabindex="0" role="button" aria-label="${o(e.label)}${a(`, `,`، `)}${e.kind===`fact`?a(`fact table`,`جدول حقائق`):a(`dimension`,`بُعد`)}. ${o(e.grain)}" transform="translate(${e.x} ${e.y})"><rect x="${e.kind===`fact`?-62:-70}" y="-19" width="${e.kind===`fact`?124:140}" height="38" rx="${e.kind===`fact`?3:19}"/><text text-anchor="middle" y="5">${o(e.label)}</text></g>`).join(``)}
+          </svg>
+          <div class="star-info" aria-live="polite"><p class="si-t">${a(`Two facts, six dimensions`,`جدولا حقائق وستة أبعاد`)}</p><p class="si-d">${a(`Sales and purchases share the Date and Stock item dimensions, so both can be filtered by the same calendar and products.`,`تشترك المبيعات والمشتريات في بُعدي التاريخ وصنف المخزون، فيمكن تصفيتهما بالتقويم نفسه والمنتجات نفسها.`)}</p></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="en-code">
+        <div class="en-head">
+          <h2 class="sec-title" id="en-code">${a(`SQL and DAX`,`SQL وDAX`)}</h2>
+          <p class="sec-note">${a(`Examples of the kind of query and measure the project uses.`,`أمثلة على نوع الاستعلامات والمقاييس التي يستخدمها المشروع.`)} ${i(`illustrative`,a(`Illustrative, not project code`,`توضيحي، وليس من شيفرة المشروع`))}</p>
+        </div>
+        <div class="codeview" data-reveal>
+          <div class="tablist" role="tablist" aria-label="${a(`Code examples`,`أمثلة الشيفرة`)}">
+            ${S.map(e=>`<button role="tab" data-tab="${e.id}" id="code-${e.id}" aria-controls="code-panel">${o(e.tab)}</button>`).join(``)}
+          </div>
+          <div class="code-panel" id="code-panel" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <section class="section sec-grid" aria-labelledby="en-valid">
+        <div class="sec-aside">
+          <h2 class="sec-title" id="en-valid">${a(`Validation`,`التحقق`)}</h2>
+          <p class="sec-note">${a(`A measure is trusted only when three independent sources agree on it.`,`لا يُعتمد المقياس إلا إذا اتفقت عليه ثلاثة مصادر مستقلة.`)}</p>
+        </div>
+        <div class="recon" data-reveal>
+          <svg class="recon-svg" viewBox="0 0 420 300" role="img" aria-label="${a(`Reconciliation triangle: SQL query, Power BI model and documentation must agree`,`مثلث المطابقة: يجب أن يتفق استعلام SQL ونموذج Power BI والتوثيق`)}">
+            <path class="recon-tri" d="M210 40 L370 255 L50 255 Z"/>
+            <circle class="recon-core" cx="210" cy="183" r="7"/>
+            <g class="recon-pt" transform="translate(210 40)"><circle r="9"/><text y="-18" text-anchor="middle">${a(`SQL query`,`استعلام SQL`)}</text></g>
+            <g class="recon-pt" transform="translate(370 255)"><circle r="9"/><text y="34" text-anchor="middle">${a(`Power BI model`,`نموذج Power BI`)}</text></g>
+            <g class="recon-pt" transform="translate(50 255)"><circle r="9"/><text y="34" text-anchor="middle">${a(`Documentation`,`التوثيق`)}</text></g>
+          </svg>
+          <ol class="recon-steps">
+            <li>${a(`Each measure is written down with its definition before it is built.`,`يُكتب كل مقياس مع تعريفه قبل بنائه.`)}</li>
+            <li>${a(`The same figure is computed by a SQL query against the analytical layer.`,`يُحسب الرقم نفسه باستعلام SQL على الطبقة التحليلية.`)}</li>
+            <li>${a(`The model’s DAX measure is evaluated with the same filters.`,`يُقيَّم مقياس DAX في النموذج بالمرشحات نفسها.`)}</li>
+            <li>${a(`The figures are compared. A difference is investigated, never averaged away.`,`تُقارن الأرقام. وأي فرق يُتحرّى عنه، ولا يُخفى بالمتوسطات أبدًا.`)}</li>
+          </ol>
+          <a class="text-link" href="#/insights">${a(`How findings are marked as they are verified`,`كيف تُعلَّم النتائج كلما جرى التحقق منها`)}</a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="en-dec">
+        <div class="en-head">
+          <h2 class="sec-title" id="en-dec">${a(`Decisions and challenges`,`القرارات والتحديات`)}</h2>
+          <p class="sec-note">${i(`unverified`,d)}</p>
+        </div>
+        <div class="decisions" data-reveal>
+          <ul class="dec-list">
+            ${T.map(e=>`<li><h3>${o(e.t)}</h3><p>${o(e.why)}</p><span class="dec-s">${o(e.status)}</span></li>`).join(``)}
+          </ul>
+          <div class="challenges">
+            <h3 class="ch-h">${a(`Open challenges`,`تحديات قائمة`)}</h3>
+            <ul>${E.map(e=>`<li><b>${o(e.t)}</b><p>${o(e.d)}</p></li>`).join(``)}</ul>
+          </div>
+        </div>
+      </section>
+
+      ${r(`engineering`,a(`The people behind the project and the resources it produced.`,`الأشخاص وراء المشروع والمخرجات التي أنتجها.`))}
+      ${n()}
+    </div>`;let f=u.querySelector(`.arch-grid`),p=u.querySelector(`.arch-wires`),h=new ResizeObserver(()=>{let e=f.getBoundingClientRect();p.setAttribute(`viewBox`,`0 0 ${e.width} ${e.height}`);let t=t=>{let n=f.querySelector(`[data-tab="${t}"]`).getBoundingClientRect();return{l:n.left-e.left,r:n.right-e.left,t:n.top-e.top,b:n.bottom-e.top,cx:n.left-e.left+n.width/2,cy:n.top-e.top+n.height/2}};p.innerHTML=_.map(([e,n,r],i)=>{let a=t(e),o=t(n),s=o.cx<a.cx,c;return c=Math.abs(a.cy-o.cy)<4?s?`M${a.l} ${a.cy} L${o.r} ${o.cy}`:`M${a.r} ${a.cy} L${o.l} ${o.cy}`:r?`M${a.cx} ${a.t} L${o.cx} ${o.b}`:s?`M${a.cx} ${a.b} C${a.cx} ${(a.b+o.cy)/2} ${o.r+40} ${o.cy} ${o.r} ${o.cy}`:`M${a.cx} ${a.b} C${a.cx} ${(a.b+o.cy)/2} ${o.l-40} ${o.cy} ${o.l} ${o.cy}`,`<path class="wire${r?` wire-back`:``}" data-a="${e}" data-b="${n}" d="${c}" style="--i:${i}"/>`}).join(``)});h.observe(f),this.cleanup.push(()=>h.disconnect());let C=u.querySelector(`.arch-panel`);c(f,e=>{let t=g.find(t=>t.id===e);C.setAttribute(`aria-labelledby`,`arch-${e}`),C.innerHTML=`<h3 class="display">${o(t.label)}</h3><p>${o(t.role)}</p>`,p.querySelectorAll(`.wire`).forEach(t=>t.classList.toggle(`lit`,t.getAttribute(`data-a`)===e||t.getAttribute(`data-b`)===e))});let w=u.querySelector(`.schema-panel`);c(u.querySelector(`.schema-tabs`),e=>{let t=v[e];w.setAttribute(`aria-labelledby`,`sch-${e}`),w.innerHTML=`<p class="sp-note">${o(t.note)}</p><table class="sp-table"><caption class="sr-only">${a(`Main tables in the ${e} schema`,`الجداول الرئيسية في مخطط ${e}`)}</caption><thead><tr><th scope="col">${a(`Table`,`الجدول`)}</th><th scope="col">${a(`What one row holds`,`ما يحمله الصف الواحد`)}</th></tr></thead><tbody>${t.tables.map(([t,n])=>`<tr><th scope="row" class="num" dir="ltr">${e}.${t}</th><td>${o(n)}</td></tr>`).join(``)}</tbody></table>`},0);let D=u.querySelector(`.star-svg`),O=u.querySelector(`.star-info`),k=O.innerHTML,A=e=>{if(D.classList.toggle(`focusing`,!!e),D.querySelectorAll(`[data-a]`).forEach(t=>t.classList.toggle(`lit`,!!e&&(t.dataset.a===e||t.dataset.b===e))),D.querySelectorAll(`.ent`).forEach(t=>{let n=!!e&&(t.dataset.id===e||x.some(([n,r])=>n===e&&r===t.dataset.id||r===e&&n===t.dataset.id));t.classList.toggle(`lit`,n)}),!e){O.innerHTML=k;return}let t=b.find(t=>t.id===e),n=x.filter(([t,n])=>t===e||n===e).map(([t,n])=>o(b.find(r=>r.id===(t===e?n:t)).label));O.innerHTML=`<p class="si-t">${o(t.label)} <span>${t.kind===`fact`?a(`fact`,`حقائق`):a(`dimension`,`بُعد`)}</span></p><p class="si-d">${o(t.grain)}. ${t.kind===`fact`?a(`Filtered by`,`يُصفّى حسب`):a(`Filters`,`يصفّي`)} ${n.join(a(`, `,`، `))}.</p>`};D.querySelectorAll(`.ent`).forEach(e=>{e.addEventListener(`pointerenter`,()=>A(e.dataset.id)),e.addEventListener(`focus`,()=>A(e.dataset.id)),e.addEventListener(`pointerleave`,()=>A(null)),e.addEventListener(`blur`,()=>A(null))});let j=u.querySelector(`.code-panel`),M=a(`Copy example`,`نسخ المثال`);c(u.querySelector(`.codeview [role=tablist]`),e=>{let t=S.find(t=>t.id===e);j.setAttribute(`aria-labelledby`,`code-${e}`),j.innerHTML=`${m(t.code,t.lang,o(t.label))}<div class="code-why"><p>${o(t.why)}</p><button class="text-btn copy" type="button">${M}</button></div>`,j.querySelector(`.copy`).addEventListener(`click`,async e=>{let n=e.currentTarget;try{await navigator.clipboard.writeText(t.code),n.textContent=a(`Copied`,`نُسخ`)}catch{n.textContent=a(`Copy not available`,`النسخ غير متاح`)}setTimeout(()=>n.textContent=M,1800)})}),s(u),u.querySelector(`.engineering`).classList.toggle(`still`,t.still),this.cleanup.push(l(u),t.subscribe(()=>u.querySelector(`.engineering`)?.classList.toggle(`still`,t.still)))},unmount(){this.cleanup.forEach(e=>e()),this.cleanup=[]}};export{D as default};

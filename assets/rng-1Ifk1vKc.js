@@ -1,0 +1,1 @@
+function e(e){let t=e>>>0;return()=>{t=t+1831565813>>>0;let e=t;return e=Math.imul(e^e>>>15,e|1),e^=e+Math.imul(e^e>>>7,e|61),((e^e>>>14)>>>0)/4294967296}}var t=e=>{let t=Math.max(1e-9,e()),n=e();return Math.sqrt(-2*Math.log(t))*Math.cos(2*Math.PI*n)};export{e as n,t};

@@ -1,0 +1,1 @@
+function e(e,t){if(e.length<2)return``;let n=Math.min(...e),r=Math.max(...e)||1;return`<svg class="spark" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><polyline points="${e.map((t,i)=>`${i/(e.length-1)*120},${27-(t-n)/(r-n||1)*24}`).join(` `)}" fill="none" style="stroke:${t}" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg>`}export{e as t};

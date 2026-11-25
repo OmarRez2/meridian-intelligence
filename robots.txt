@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://omarrez2.github.io/meridian-intelligence/sitemap.xml

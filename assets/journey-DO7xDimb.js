@@ -1,0 +1,38 @@
+import{n as e}from"./rng-1Ifk1vKc.js";import{H as t,St as n,U as r,V as i,W as a,bt as o,tt as s,xt as c,yt as l}from"./index-Cp_ZfTbz.js";import{n as u}from"./tabs-CCYbcGZq.js";import{t as d}from"./journey-B8UVOxhG.js";var f=()=>[s(`Source`,`المصدر`),s(`Quality`,`الجودة`),s(`ETL`,`ETL`),s(`Validate`,`التحقق`),s(`Model`,`النموذج`),s(`Report`,`التقرير`),s(`Insight`,`الرؤية`)],p=()=>[s(`Sales`,`المبيعات`),s(`Purchasing`,`المشتريات`),s(`Stock`,`المخزون`)],m=[`glacier`,`brass`,`chalk`],h={lanes:[``,``,``],ember:``,raw:``,ink:``,rgb:{ink:``,glacier:``,ember:``,brass:``,haze:``}};function g(){h.lanes=m.map(e=>c(e)),h.ember=c(`ember`),h.ink=c(`chalk`);for(let e of Object.keys(h.rgb))h.rgb[e]=c(`${e}-rgb`).replace(/\s+/g,`,`);h.raw=`rgba(${h.rgb.haze},0.75)`}var _=(e,t)=>`rgba(${h.rgb[e]},${t})`,v={cleanup:[],mount(c){g();let v=f(),y=p();c.innerHTML=`
+    <div class="journey page-pad">
+      ${t(`journey`,s(`The data journey`,`رحلة البيانات`),s(`How a record travels from the operational database to a recommendation, in the seven stages the team followed. Each stage gives the method and, separately, what the project’s files record and how far it has gone.`,`كيف ينتقل السجل من قاعدة البيانات التشغيلية إلى توصية، عبر المراحل السبع التي اتبعها الفريق. تعرض كل مرحلة المنهجية، ثم ما تسجله ملفات المشروع ومدى التقدم فيها.`),`<p class="j-badges">${a(`illustrative`,s(`Illustrative diagram`,`مخطط توضيحي`))} ${a(`pending`,s(`Counts from project files; team approval pending`,`الأرقام من ملفات المشروع؛ الاعتماد بانتظار الفريق`))}</p>`)}
+      <div class="j-grid">
+        <div class="j-figure" aria-hidden="true" dir="ltr">
+          <canvas class="j-canvas"></canvas>
+          <ol class="j-zones">${v.map((e,t)=>`<li data-i="${t}">${e}</li>`).join(``)}</ol>
+          <div class="j-legend">${y.map((e,t)=>`<span><i style="background:var(--${m[t]})"></i>${e}</span>`).join(``)}<span><i class="ember"></i>${s(`Held for review`,`محتجز للمراجعة`)}</span></div>
+        </div>
+        <ol class="j-steps">
+          ${d.map((e,t)=>`
+          <li class="j-step" data-i="${t}">
+            <span class="j-n num">${t+1}</span>
+            <div>
+              <h2>${l(e.title)}</h2>
+              ${a(e.state)}
+              <p class="j-k">${l(e.line)}</p>
+              <p>${l(e.method)}</p>
+              <p class="j-shows"><span>${s(`In the diagram`,`في المخطط`)}</span>${l(e.shows)}</p>
+              <button class="text-btn" type="button" aria-expanded="false" aria-controls="j-proj-${e.id}">${s(`What the project did`,`ما أنجزه المشروع`)}</button>
+              <div class="j-proj" id="j-proj-${e.id}" hidden><p>${l(e.project)}</p><p class="j-evidence"><span>${s(`Evidence`,`الدليل`)}</span> ${l(e.evidence)}</p></div>
+            </div>
+          </li>`).join(``)}
+          <li class="j-step j-end" data-i="6">
+            <div>
+              <h2>${s(`Where the journey ends`,`أين تنتهي الرحلة`)}</h2>
+              <p>${s(`The Observatory explores the same source data, reconciled to the team’s SQL benchmarks. The Insights page turns it into findings, each with its evidence, its limits and a recommendation.`,`يستكشف المرصد بيانات المصدر نفسها، مطابقةً لمعايير الفريق المحسوبة بـ SQL. وتحوّلها صفحة الرؤى إلى نتائج، لكل منها دليلها وحدودها وتوصيتها.`)}</p>
+              <div class="j-actions">
+                <a class="btn btn-primary" href="#/observatory"><span class="dial" aria-hidden="true"></span>${s(`Open the Observatory`,`افتح المرصد`)}</a>
+                <a class="btn" href="#/insights">${s(`Read the insights`,`اقرأ الرؤى`)}</a>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+      ${i(`journey`,s(`Findings from 41 months of data, each with its evidence, limits and a recommendation.`,`نتائج من 41 شهرًا من البيانات، لكل منها دليلها وحدودها وتوصيتها.`))}
+      ${r()}
+    </div>`,u(c);let b=c.querySelector(`.j-canvas`),x=b.getContext(`2d`),S=[...c.querySelectorAll(`.j-zones li`)],C=[...c.querySelectorAll(`.j-step`)],w=0,T=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(w=Number(e.target.dataset.i),C.forEach(t=>t.classList.toggle(`on`,t===e.target)),S.forEach((e,t)=>e.classList.toggle(`on`,t===w)),n.still&&V(0))})},{rootMargin:window.matchMedia(`(max-width: 900px)`).matches?`-66% 0px -28% 0px`:`-45% 0px -45% 0px`});C.forEach(e=>T.observe(e));let E=v.length,D=Array.from({length:E+1},(e,t)=>t/E),O=D[5],k=0,A=0,j=Math.min(2,window.devicePixelRatio),M=()=>{let e=b.getBoundingClientRect();k=e.width,A=e.height,b.width=k*j,b.height=A*j,x.setTransform(j,0,0,j,0,0),n.still&&V(0)},N=e(55),P=window.innerWidth<700?240:460,F=(e={})=>({x:0,y0:N(),lane:Math.floor(N()*3),bad:N()<.09,v:3e-4+N()*35e-5,s:N(),...e}),I=Array.from({length:P},()=>F({x:N()*O})),L=[0,0,0],R=0,z=0,B=(e,t,n)=>{let r=Math.min(1,Math.max(0,(n-e)/(t-e)));return r*r*(3-2*r)},V=e=>{if(z+=e,x.clearRect(0,0,k,A),!k)return;let t=A*.14,n=A*.58,r=A*.84,i=e=>t+n*(.2+e*.3),a=e=>D[e]*k;for(let e=0;e<E;e++)e===w&&(x.fillStyle=_(`glacier`,.06),x.fillRect(a(e),0,a(e+1)-a(e),A)),e>0&&(x.strokeStyle=_(`haze`,.18),x.beginPath(),x.moveTo(a(e),t-14),x.lineTo(a(e),t+n+14),x.stroke());let o=(a(1)+a(2))/2,s=t+n*(.5+.38*Math.sin(z*7e-4)),c=Math.min(34,(a(2)-a(1))*.42);x.strokeStyle=_(`ink`,w===1?.75:.28),x.beginPath(),x.arc(o,s,c,0,6.283),x.stroke();let l=a(3)+10;x.strokeStyle=_(`ember`,w===3?.85:.35),x.setLineDash([3,4]),x.beginPath(),x.moveTo(l,t-14),x.lineTo(l,r-16),x.stroke(),x.setLineDash([]);let u=(a(4)-a(3))*.86;x.strokeStyle=_(`ember`,.32),x.strokeRect(a(3)+4,r-12,u,24);let d=Math.max(6,Math.floor((u-10)/4.2)),f=Math.min(R,d*4);x.fillStyle=_(`ember`,.85);for(let e=0;e<f;e++)x.fillRect(a(3)+9+e%d*4.2,r-8+Math.floor(e/d)*4.4,2.6,2.6);for(let r of I){let a=r.x,u=r.x>D[1]&&r.x<D[2];if(r.x+=r.v*e*(u?.5:1),r.bad&&a<=l/k&&r.x>l/k){R=R>=d*4?d*3:R+1,Object.assign(r,F());continue}if(r.x>=O){L[r.lane]=Math.min(n*.92,L[r.lane]+1.1),Object.assign(r,F());continue}let f=i(r.lane),p=t+r.y0*n,m=B(D[2],D[2]+.09,r.x),g=p+(f-p)*m+Math.sin(r.s*40+r.x*30)*5*(1-m);g+=(r.s-.5)*n*.18*m*(1-B(D[4],D[4]+.05,r.x)*.6);let _=r.x>D[4];_&&(g=Math.round(g/9)*9);let v=r.x*k,y=u&&Math.hypot(v-o,g-s)<c;x.fillStyle=r.bad&&r.x<l/k?h.ember:r.x<D[2]?y?h.ink:h.raw:h.lanes[r.lane],x.globalAlpha=y?1:.85,_?x.fillRect(v-1.8,g-1.8,3.6,3.6):(x.beginPath(),x.arc(v,g,y?2.4:1.7,0,6.283),x.fill())}x.globalAlpha=1;let p=a(5),m=(a(6)-a(5)-24)/3-6,g=e=>p+12+e*(m+6),v=t+n;h.lanes.forEach((t,n)=>{e&&(L[n]*=.9994),x.fillStyle=t,x.globalAlpha=.22,x.fillRect(g(n),v-L[n],m,L[n]),x.globalAlpha=.9,x.fillRect(g(n),v-L[n],m,2)}),x.globalAlpha=1;let y=(L[0]+L[1]+L[2])/3,b=L.indexOf(Math.max(...L));if(L[b]>8){let e=w===6?1:.55;x.strokeStyle=_(`ink`,.5*e),x.setLineDash([2,4]),x.beginPath(),x.moveTo(p+6,v-y),x.lineTo(a(6)-2,v-y),x.stroke(),x.setLineDash([]);let n=g(b)+m/2,r=v-L[b];x.strokeStyle=_(`brass`,e),x.beginPath(),x.arc(n,r-7,5,0,6.283),x.stroke();let i=a(6)+10,o=a(7)-i-10,s=Math.max(t,r-30);x.beginPath(),x.moveTo(n+5,r-7),x.lineTo(i,s+10),x.stroke(),x.strokeRect(i,s,o,58),[.85,.6,.72].forEach((t,n)=>{x.fillStyle=n===0?_(`brass`,.8*e):_(`haze`,.45*e),x.fillRect(i+8,s+12+n*14,(o-16)*t,3)})}},H=0,U=0,W=e=>{V(Math.min(50,e-U)),U=e,H=requestAnimationFrame(W)},G=()=>{cancelAnimationFrame(H),U=performance.now(),H=requestAnimationFrame(W)};M(),n.still?(()=>{for(let e=0;e<1400;e++)V(16)})():G();let K=n.subscribe(e=>{e||n.reduced?(cancelAnimationFrame(H),V(0)):G()}),q=new ResizeObserver(M);q.observe(b);let J=o.subscribe(()=>{g(),n.still&&V(0)});this.cleanup.push(()=>{cancelAnimationFrame(H),q.disconnect(),T.disconnect(),K(),J()})},unmount(){this.cleanup.forEach(e=>e()),this.cleanup=[]}};export{v as default};
