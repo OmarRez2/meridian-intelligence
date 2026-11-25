@@ -185,7 +185,7 @@ for (const lang of ['en', 'ar']) {
   check(`Present (${lang}): the forward arrow advances a slide`, n0.trim().startsWith('1 /') && n1.trim().startsWith('2 /'), `${n0} -> ${n1}`);
   await page.keyboard.press('End');
   await page.waitForTimeout(1200);
-  check(`Present (${lang}): End jumps to the last slide and the URL keeps it`, /s=15/.test(page.url()));
+  check(`Present (${lang}): End jumps to the last slide and the URL keeps it`, /s=16/.test(page.url()));
   await page.goto(`${BASE}?lang=${lang}#/present?s=6`);
   await page.waitForTimeout(2000);
   check(`Present (${lang}): the numbers slide renders real KPIs and a chart`, (await count(page, '.pk')) === 4 && (await count(page, '.ps-chart svg')) === 1);

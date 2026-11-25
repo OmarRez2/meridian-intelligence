@@ -182,6 +182,14 @@ async function profile(browser, key) {
     for (let y = 0; y < 2400; y += 30) { scrollTo(0, y); await new Promise((res) => setTimeout(res, 40)); }
   }));
 
+  // Decision Simulator: drag the price lever through 61 values (each input recomputes the scenario and redraws the bridge)
+  await page.evaluate(() => { location.hash = '#/simulator?e=-1.5&r=0.3'; });
+  await page.waitForTimeout(3000);
+  r.simulatorDrag = await window_(page, cdp, 4000, () => page.evaluate(async () => {
+    const i = document.querySelector('#lv-price');
+    for (let v = -10; v <= 20; v += 0.5) { i.value = String(v); i.dispatchEvent(new Event('input', { bubbles: true })); await new Promise((res) => setTimeout(res, 30)); }
+  }));
+
   // memory: tour all seven pages three times, return home, collect garbage
   const routes = ['#/', '#/overview', '#/observatory', '#/journey', '#/insights', '#/engineering', '#/team'];
   await cdp.send('HeapProfiler.collectGarbage');

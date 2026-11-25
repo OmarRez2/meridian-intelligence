@@ -164,6 +164,7 @@ const routes: Record<string, RouteDef> = {
   '/journey': { id: 'journey', load: () => import('./pages/journey').then((m) => m.default) },
   '/insights': { id: 'insights', load: () => import('./pages/insights').then((m) => m.default) },
   '/lab': { id: 'lab', load: () => import('./pages/lab').then((m) => m.default) },
+  '/simulator': { id: 'sim', load: () => import('./pages/sim').then((m) => m.default) },
   '/engineering': { id: 'engineering', load: () => import('./pages/engineering').then((m) => m.default) },
   '/team': { id: 'team', load: () => import('./pages/team').then((m) => m.default) },
   '/present': { id: 'present', load: () => import('./pages/present').then((m) => m.default) },

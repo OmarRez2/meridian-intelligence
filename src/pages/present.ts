@@ -17,6 +17,9 @@ import { dataBadge, dataStatePanel } from '../components/datastate';
 import { Trend, BarList, tip } from '../charts/kit';
 import { PulseStrip, supplierRing, BacktestChart } from '../charts/lab';
 import { abcMatrix, lossAnatomy, leakage, supplierDependence, stockCapital, forecastCheck, HHI_HIGH } from '../data/lab';
+import { simulate, breakEven, BASELINE } from '../data/sim';
+import { ProfitBridge } from '../charts/sim';
+import '../styles/sim.css';
 import '../styles/lab.css';
 import { esc } from '../lib/format';
 import { i18n, L, tr, segName, famName, pct, money, int, monthLabel, fmtDate } from '../i18n';
@@ -236,6 +239,56 @@ function slides(result: DataResult, ds: SupplyChainDataset | null, a: Analysis |
       },
     },
     {
+      id: 'sim-price', kicker: () => L('Decision Simulator · Price', 'محاكي القرار · السعر'), rig: R({ p: 3, dist: 38, elev: 0.85, azim: -1.4, lookY: 1.5, plateX: 7, lines: 0.5 }),
+      html: needData(() => {
+        const p = 0.05, scope = { kind: 'all' } as const;
+        const be = breakEven(ds!, scope, p);
+        if (be.kind !== 'floor') return ready;
+        const r0 = simulate(ds!, { ...BASELINE, price: { scope, change: p } });
+        const opts = [0, -1, -2, -3];
+        return `
+        <h2 class="display ps-h">${L(`A ${pct(p, 0)} price rise pays, unless volume falls by more than ${pct(-be.volumeChange)}.`, `رفع الأسعار ${pct(p, 0)} مُجدٍ، ما لم تنخفض الكمية بأكثر من ${pct(-be.volumeChange)}.`)}</h2>
+        <div class="pk-grid">
+          ${kpi(`+${money(r0.delta)}`, L('gross profit at recorded volume: arithmetic, no assumption', 'إجمالي الربح عند الكمية المسجّلة: حساب بلا افتراض'))}
+          ${kpi(pct(-be.volumeChange), L('volume it could lose before profit falls below recorded', 'الكمية التي يمكن فقدها قبل أن ينخفض الربح عن المسجَّل'))}
+          ${kpi(`<bdi dir="ltr">${(be.elasticity ?? 0).toFixed(2).replace('-', '−')}</bdi>`, L('break-even elasticity: customers would have to be more price-sensitive than this', 'مرونة التعادل: يجب أن يكون العملاء أشد حساسية للسعر من ذلك'))}
+          <div class="pk ps-sim-pick">
+            <p class="pk-l" id="ps-sim-lab">${L('Assume a volume response', 'افترض استجابة للكمية')}</p>
+            <div class="ps-sim-opts" role="radiogroup" aria-labelledby="ps-sim-lab">
+              ${opts.map((e) => `<label><input type="radio" name="ps-sim-e" value="${e}"${e === 0 ? ' checked' : ''}><span class="num" dir="ltr">${e === 0 ? '0' : `−${-e}`}</span></label>`).join('')}
+            </div>
+            <p class="pk-n" data-ps-sim-out aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="ps-lab-chart ps-sim-bridge" data-chart="bridge"></div>
+        <p class="ps-note">${statusBadge('unverified', L('Scenario arithmetic · not a forecast, not a causal estimate', 'حساب سيناريو · لا توقّع ولا تقدير سببي'))} <a class="text-link" href="#/simulator?p=0.05&amp;ps=a" data-ps-sim-link>${L('Open this scenario in the Simulator', 'افتح هذا السيناريو في المحاكي')}</a></p>`;
+      }),
+      after: (el) => {
+        if (!ds) return;
+        const host = el.querySelector<HTMLElement>('[data-chart=bridge]');
+        if (!host) return;
+        const bridge = new ProfitBridge(host); charts.push(bridge);
+        const draw = (e: number) => {
+          const r = simulate(ds, { ...BASELINE, price: { scope: { kind: 'all' }, change: 0.05 }, elasticity: e });
+          const st = (k: string) => r.steps.find((s) => s.key === k)!.delta;
+          bridge.update(r.baseline.profit, [
+            { key: 'price', label: L('Price +5%', 'السعر ‎+5%'), short: L('Price', 'السعر'), basis: 'decision', delta: st('price') },
+            { key: 'volume', label: L('Volume response', 'استجابة الكمية'), short: L('Volume', 'الكمية'), basis: 'assumed', delta: st('volume') },
+            { key: 'end', label: L('Scenario', 'السيناريو'), basis: 'total', delta: 0 },
+          ]);
+          const out = el.querySelector<HTMLElement>('[data-ps-sim-out]')!;
+          const d = r.delta, sign = d >= 0 ? '+' : '−';
+          const ev = `<bdi dir="ltr">−${-e}</bdi>`, mv = `<bdi>${esc(sign + money(Math.abs(d)))}</bdi>`;
+          out.innerHTML = e === 0
+            ? L(`Volume unchanged (an assumption): ${mv}. Nothing here says customers would behave this way.`, `الكمية ثابتة (افتراض): ${mv}. ولا شيء هنا يقول إن العملاء سيتصرفون هكذا.`)
+            : L(`At an assumed elasticity of ${ev}: ${mv} vs recorded; ${pct(r.load.share, 0)} of the movement rests on the assumption.`, `عند مرونة مفترضة ${ev}: ${mv} مقابل المسجَّل؛ و${pct(r.load.share, 0)} من الحركة يستند إلى الافتراض.`);
+          el.querySelector<HTMLAnchorElement>('[data-ps-sim-link]')!.href = `#/simulator?p=0.05&ps=a${e ? `&e=${e}` : ''}`;
+        };
+        el.querySelector('.ps-sim-opts')!.addEventListener('change', (ev) => draw(Number((ev.target as HTMLInputElement).value)));
+        draw(0);
+      },
+    },
+    {
       id: 'recs', kicker: () => L('Recommendations', 'التوصيات'), rig: R({ p: 0, dist: 30, elev: 0.5, azim: 0.4, lookY: 3, plateX: 7 }),
       html: () => `
         <h2 class="display ps-h">${L('What to do on Monday.', 'ما يجب فعله صباح الاثنين.')}</h2>
@@ -331,7 +384,7 @@ const page: Page & { cleanup: (() => void)[] } = {
     const fwd = () => (i18n.rtl ? 'ArrowLeft' : 'ArrowRight'), back = () => (i18n.rtl ? 'ArrowRight' : 'ArrowLeft');
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
-      if (t.closest('input, select, textarea, .barlist, svg.trend')) return; // charts keep their own arrow keys
+      if (t.closest('input, select, textarea, .barlist, svg.trend, .bridge-svg')) return; // charts keep their own arrow keys
       if (e.key === fwd() || e.key === 'PageDown' || (e.key === ' ' && t.tagName !== 'BUTTON' && t.tagName !== 'A')) { e.preventDefault(); go(index + 1); }
       else if (e.key === back() || e.key === 'PageUp') { e.preventDefault(); go(index - 1); }
       else if (e.key === 'Home') { e.preventDefault(); go(0); }
@@ -359,7 +412,7 @@ const page: Page & { cleanup: (() => void)[] } = {
     // the site-wide language switch remounts this page; the slide number survives in the URL
     root.querySelector<HTMLButtonElement>('.ps-lang')!.addEventListener('click', () => document.querySelector<HTMLButtonElement>('.lang-toggle')?.click());
     // clicking the stage (not a control) advances, as a clicker would
-    slideEl.addEventListener('click', (e) => { if (!(e.target as HTMLElement).closest('a, button, svg, .barlist, .ps-chart')) go(index + 1); });
+    slideEl.addEventListener('click', (e) => { if (!(e.target as HTMLElement).closest('a, button, input, label, select, svg, .barlist, .ps-chart, .ps-sim-pick')) go(index + 1); });
 
     // the router directs the ambient rig after mount; the first slide's camera is set on the next frame
     requestAnimationFrame(() => go(index, true));

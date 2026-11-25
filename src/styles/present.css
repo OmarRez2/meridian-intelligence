@@ -102,5 +102,16 @@ html[data-motion='reduced'] .ps-progress span { transition: none; }
 .ps-lab-ring .lab-ring { width: 100%; max-width: 380px; height: auto; }
 .ps-lab-k { grid-template-columns: 1fr 1fr; }
 .ps-note .text-link { margin-inline-start: .8rem; font-size: .9rem; }
-.ps-slide[data-slide^='lab-'] .pk-grid, .ps-slide[data-slide^='lab-'] .ps-lab-chart { background: rgb(var(--ground-rgb) / .78); backdrop-filter: blur(3px); }
-:root[data-theme='light'] .ps-slide[data-slide^='lab-'] .pk-grid, :root[data-theme='light'] .ps-slide[data-slide^='lab-'] .ps-lab-chart { background: rgb(var(--surface-rgb) / .86); }
+.ps-slide[data-slide^='lab-'] .pk-grid, .ps-slide[data-slide^='lab-'] .ps-lab-chart, .ps-slide[data-slide^='sim-'] .pk-grid, .ps-slide[data-slide^='sim-'] .ps-lab-chart { background: rgb(var(--ground-rgb) / .78); backdrop-filter: blur(3px); }
+:root[data-theme='light'] .ps-slide[data-slide^='lab-'] .pk-grid, :root[data-theme='light'] .ps-slide[data-slide^='lab-'] .ps-lab-chart, :root[data-theme='light'] .ps-slide[data-slide^='sim-'] .pk-grid, :root[data-theme='light'] .ps-slide[data-slide^='sim-'] .ps-lab-chart { background: rgb(var(--surface-rgb) / .86); }
+
+/* Decision Simulator slide: a radio group for the assumed volume response, and a compact profit bridge */
+.ps-sim-opts { display: flex; flex-wrap: wrap; gap: .35rem; margin: .5rem 0 .6rem; }
+.ps-sim-opts label { position: relative; display: inline-flex; }
+.ps-sim-opts input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.ps-sim-opts span { min-width: 2.6rem; padding: .3rem .6rem; text-align: center; border: 1px dashed rgb(var(--haze-rgb) / .8); border-radius: 999px; color: var(--haze); font-size: .95rem; }
+.ps-sim-opts input:checked + span { border-style: solid; border-color: var(--glacier); color: var(--chalk); background: rgb(var(--glacier-rgb) / .14); }
+.ps-sim-opts input:focus-visible + span { outline: 2px solid var(--glacier); outline-offset: 2px; }
+.ps-sim-pick .pk-n { min-height: 3.2em; }
+.ps-sim-bridge { padding: .4rem 1rem 0; }
+.ps-sim-bridge .bridge-svg { max-height: 260px; }

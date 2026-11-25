@@ -2,7 +2,7 @@
 // Usage: node scripts/smoke.mjs  (dev server on 127.0.0.1:5173). Writes nothing.
 import { chromium } from 'playwright-core';
 const BASE = process.env.BASE_URL ?? 'http://127.0.0.1:5173/';
-const routes = ['', 'overview', 'observatory', 'journey', 'insights', 'lab', 'engineering', 'team', 'present'];
+const routes = ['', 'overview', 'observatory', 'journey', 'insights', 'lab', 'simulator', 'engineering', 'team', 'present'];
 const browser = await chromium.launch({ channel: 'chrome' });
 let fails = 0;
 for (const lang of ['en', 'ar']) for (const theme of ['dark', 'light']) {

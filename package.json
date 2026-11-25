@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 4173 --strictPort",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/test-data.mjs && node scripts/test-lab.mjs"
+    "test": "node scripts/test-data.mjs && node scripts/test-lab.mjs && node scripts/test-sim.mjs"
   },
   "dependencies": {
     "@fontsource/amiri": "5.3.0",

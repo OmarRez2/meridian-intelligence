@@ -782,7 +782,7 @@ const page: Page & { cleanup: (() => void)[] } = {
       ${stockSection(ds)}
       ${forecastSection(ds)}
       ${closingSection(ds)}` : result.state !== 'ready' ? `<div class="section">${dataStatePanel(result, '/lab')}</div>` : ''}
-      ${nextChapter('lab', L('How the data was profiled, cleaned, modelled and reconciled.', 'كيف حُلّلت البيانات ونُظّفت ونُمذجت وطوبقت.'))}
+      ${nextChapter('lab', L('Move the levers yourself: price, volume and fulfilment scenarios on the recorded profit.', 'حرّك الروافع بنفسك: سيناريوهات السعر والكمية والتنفيذ على الربح المسجَّل.'))}
       ${siteFooter()}
     </div>`;
     if (!ds) return;

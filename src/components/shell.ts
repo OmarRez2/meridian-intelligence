@@ -10,6 +10,7 @@ export const SEQUENCE: { id: string; href: string; label: Bi; short: Bi }[] = [
   { id: 'journey', href: '#/journey', label: { en: 'Data journey', ar: 'رحلة البيانات' }, short: { en: 'Journey', ar: 'الرحلة' } },
   { id: 'insights', href: '#/insights', label: { en: 'Insights', ar: 'الرؤى والتوصيات' }, short: { en: 'Insights', ar: 'الرؤى' } },
   { id: 'lab', href: '#/lab', label: { en: 'Analytics Lab', ar: 'مختبر التحليلات' }, short: { en: 'Lab', ar: 'المختبر' } },
+  { id: 'sim', href: '#/simulator', label: { en: 'Decision Simulator', ar: 'محاكي القرار' }, short: { en: 'Simulator', ar: 'المحاكي' } },
   { id: 'engineering', href: '#/engineering', label: { en: 'Engineering', ar: 'الهندسة' }, short: { en: 'Engineering', ar: 'الهندسة' } },
   { id: 'team', href: '#/team', label: { en: 'Team and resources', ar: 'الفريق والموارد' }, short: { en: 'Team', ar: 'الفريق' } },
 ];
