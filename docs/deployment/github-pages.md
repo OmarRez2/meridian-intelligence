@@ -4,9 +4,9 @@
 
 ## How it deploys
 - `.github/workflows/pages.yml` runs on every push to `main`, and can also be started manually.
-- It runs `npm ci`, then `npm run build` with `VITE_DEPLOY_TARGET=github-pages`, which sets Vite's base path to `/meridian-intelligence/`.
-- It uploads `dist/` and deploys it with `actions/deploy-pages`.
-- The repository's Pages source is set to **GitHub Actions**.
+- It runs `npm ci`, `npm test`, then `npm run build` with `VITE_DEPLOY_TARGET=github-pages`, which sets Vite's base path to `/meridian-intelligence/`.
+- It publishes `dist/` (with `.nojekyll`) to the `gh-pages` branch.
+- Pages is set to **Deploy from a branch: `gh-pages` / root**. The Actions-based Pages deployment (`deploy-pages`) failed repeatedly with GitHub-side 500/502 errors on 2026-11-25, so the site is served from the branch instead.
 - Hash routes (for example `#/simulator?p=0.05`, `#/present?s=13`) need no server rewrites.
 - Production builds have no source maps.
 - `public/robots.txt` and `public/sitemap.xml` allow indexing.
