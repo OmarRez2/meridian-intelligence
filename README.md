@@ -4,7 +4,7 @@
 
 > **Preview status:** the current verified dataset is source-reconciled, not approved for public publication. Metric definitions, the website's derived findings and product-family groupings still need team approval. The repository is intended to remain private; the site is not deployed and retains `noindex`.
 
-**Suggested release:** `v0.5.0-preview` (not yet tagged)
+**Current private preview release:** `v0.5.0-preview`
 
 ## At a glance
 
@@ -126,16 +126,17 @@ These are reported project results, not a fresh run for this repository-preparat
 - Safari, Firefox, screen readers and physical phones/tablets have not been verified.
 - The dataset includes a partial final year and a point-in-time inventory snapshot; it is not a continuous inventory history.
 - The archived design-directions pages are English-only.
-- GitHub Pages is **not configured or enabled**. A repository base path and a reviewed deployment workflow are still required; see below.
+- GitHub Pages is **not configured or enabled**. Subpath support is prepared on the `feature/github-pages` branch; see the [deployment notes](docs/deployment/github-pages.md).
 
 ## GitHub Pages assessment
 
-Hash routing is compatible with static hosting and avoids server-side route rewrites. Font files are imported through Vite and the dataset is included by Vite's JSON glob, so both can be emitted into a static bundle. Team portrait URLs already use `import.meta.env.BASE_URL`.
+Hash routing is compatible with static hosting and avoids server-side route rewrites. Fonts and the verified JSON dataset are Vite-managed assets, portrait URLs use `import.meta.env.BASE_URL`, and the favicon uses Vite's base placeholder. `VITE_DEPLOY_TARGET=github-pages` opts production builds into `/wwi-supply-chain-intelligence/`; the default remains `/` for local development. A manual-only deployment workflow is kept inactive as `.github/workflows/pages.yml.disabled`.
 
-The project currently builds for the site root: `vite.config.ts` does not set a project-site `base`, while the HTML references the favicon and social image with root-absolute paths. Before Pages, configure and test the base path for `/wwi-supply-chain-intelligence/`, confirm generated URLs for the entry bundle, fonts, JSON and portraits, and set canonical/Open Graph URLs only after the final site URL is approved. A future Actions workflow should deploy only the reviewed `dist/` artifact with least-privilege Pages permissions and a controlled `main` trigger. Confirm that the account plan supports Pages for a private repository. No workflow, Pages setting or deployment has been created.
+The authenticated account currently reports the **GitHub Free** plan. GitHub's [Pages setup documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site) says repositories on Free / Free for organizations must be public; it also warns that Pages sites are publicly available even when the source repository is private. Therefore Pages cannot be enabled from this private repository on the current plan, and a plan change would not make the published site private. Team approval for public release of profiles, portraits and links, as well as analytical definitions and findings, remains a separate publication gate. No Pages setting was changed and nothing was published.
 
 ## Documentation
 
 - [Data architecture](docs/data-architecture.md)
 - [Export contract](docs/export-contract.md)
 - [Design system](docs/design-system.md)
+- [GitHub Pages deployment preparation](docs/deployment/github-pages.md)
