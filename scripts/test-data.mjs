@@ -4,7 +4,7 @@
 import { register } from 'node:module';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve, dirname, join, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -231,7 +231,7 @@ test('no team number appears anywhere in the prototype', () => {
     ...walk(join(ROOT, 'src')), ...walk(join(ROOT, 'scripts')), ...walk(join(ROOT, 'docs')).filter((p) => p.endsWith('.md')),
     ...walk(join(ROOT, 'public')).filter((p) => /\.(svg|html|txt|json|webmanifest)$/.test(p)),
     join(ROOT, 'index.html'), join(ROOT, 'README.md'), join(ROOT, 'CLAUDE.md'), join(ROOT, 'package.json'),
-  ];
+  ].filter(existsSync); // CLAUDE.md is local-only (gitignored), so it is absent in CI
   // "team" followed by a number, numeral word or "#n"; built so this file does not match itself
   const pattern = new RegExp(['team', '[\\s_-]*(no\\.?|number|#)?[\\s_-]*', '(\\d+|one|two|three|four|five|six|seven|eight|nine|ten)\\b'].join(''), 'i');
   const hits = files.filter((p) => pattern.test(readFileSync(p, 'utf8'))).map((p) => relative(ROOT, p));
